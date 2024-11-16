@@ -117,14 +117,8 @@ end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
-task.spawn(function()
-    while true do
-        if _G.Enabled == false then
-            break
-        end
-        AutoFarming()
-        task.wait()
-    end
+game:GetService("RunService").RenderStepped:Connect(function()
+    AutoFarming()
 end)
 
 task.spawn(function()
@@ -140,8 +134,4 @@ end)
 LocalPlayer.CharacterAdded:Connect(function()
     task.wait(2)
     Character = LocalPlayer.Character
-end)
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end)
