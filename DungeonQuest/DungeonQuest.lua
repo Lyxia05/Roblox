@@ -84,7 +84,7 @@ local function AutoFarming()
             Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CURRENT_OBJECT:GetPivot()})
         end
         
-        Character:PivotTo(CFrame.new(CURRENT_OBJECT:GetPivot().Position, CURRENT_OBJECT:GetPivot().Position))
+        Character:PivotTo(CFrame.new(Character.HumanoidRootPart.Position, CURRENT_OBJECT:GetPivot().Position))
 
         if CURRENT_OBJECT.Humanoid.Health <= 0 then
             CURRENT_OBJECT = nil
