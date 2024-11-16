@@ -33,14 +33,10 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 --
-local Speed = 25
+local Speed = 50
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
-
---
-local CFrameValue = Instance.new("CFrameValue")
-CFrameValue.Value = Character:GetPivot()
 
 --
 local function Tween(object, time, properties)
@@ -116,7 +112,7 @@ local function AutoFarming()
     end
 
     local _distance = (Monster:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
-    Tween(CFrameValue, GetTime(_distance, Speed), {Value = CFrame.new(Monster:GetPivot().Position + Vector3.new(0, Monster.attackDistance.Value + 5, 0), Monster:GetPivot().Position)})
+    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CFrame.new(Monster:GetPivot().Position + Vector3.new(0, Monster.attackDistance.Value + 5, 0), Monster:GetPivot().Position)})
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
@@ -146,6 +142,6 @@ LocalPlayer.CharacterAdded:Connect(function()
     Character = LocalPlayer.Character
 end)
 
-CFrameValue.Changed:Connect(function()
-    Character:PivotTo(CFrameValue.Value)
+game:GetService("RunService").RenderStepped:Connect(function()
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end)
