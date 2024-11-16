@@ -78,7 +78,7 @@ local function AutoFarming()
 
         local _distance = (CURRENT_OBJECT:GetPivot().Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
         if _distance >= 15 then
-            Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 7, 0), CURRENT_OBJECT:GetPivot().Position)})
+            Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CURRENT_OBJECT:GetPivot()})
         end
 
         if CURRENT_OBJECT.Humanoid.Health <= 0 then
