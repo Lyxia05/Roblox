@@ -4,17 +4,11 @@ loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))
 
 game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Freefall, false)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA6J3DKP56OOXCVWQNGZZYGORA"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA7O6AY4REDU3V7QJWAZZYGREQ"))()
 
-_G.Number = 18
-
+workspace.Gravity = 0
 game:GetService("RunService").RenderStepped:Connect(function()
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState(_G.Number)
-    for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-        if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
-            v.CanCollide = false
-        end
-    end
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(10)
 end)
 
 
@@ -32,3 +26,5 @@ BodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
 BodyVelocity.Velocity = HumanoidRootPart.CFrame.LookVector
 BodyVelocity.Parent = HumanoidRootPart
 
+
+game.Players.LocalPlayer.Character
