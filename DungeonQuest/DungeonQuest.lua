@@ -143,5 +143,5 @@ LocalPlayer.CharacterAdded:Connect(function()
 end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState(5)
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end)
