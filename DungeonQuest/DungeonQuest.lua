@@ -34,18 +34,34 @@ local function Tween(object, tweenInfo, properties)
 end
 
 local function GetTarget()
-    for index, value in pairs(DungeonFolder:GetDescendants()) do
-        if value:IsA("Humanoid") and value.Parent:IsA("Model") and value.Parent:FindFirstChild("HumanoidRootPart") and value.Parent.Parent.Name == "enemyFolder" and string.find(string.lower(value.Parent.Parent.Parent.Name), "room") then
-            local _distance = (Character.HumanoidRootPart.Position - value.Parent.HumanoidRootPart.Position).Magnitude
-            if _distance < 500 then
-                CURRENT_OBJECT = value.Parent
+    local Status = false
+
+    for index, value in pairs(DungeonFolder:GetChildren()) do
+        if value:IsA("Folder") then
+
+            if Status == true then
                 break
             end
+
+            for index, value2 in pairs(value.enemyFolder:GetChildren()) do
+
+                if value2:IsA("Model") and value2:FindFirstChild("HumanoidRootPart") then
+                    Status = true
+                    CURRENT_OBJECT = value2
+                    break
+                end
+
+            end
+
         end
     end
 end
 
 local function AutoFarming()
+    if Character == nil then
+        return
+    end
+
     if DELAY == true then
         return
     end
@@ -55,9 +71,26 @@ local function AutoFarming()
     end
 
     if CURRENT_OBJECT ~= nil then
-        Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 7, 0), CURRENT_OBJECT:GetPivot().Position)})
+        local _distance = (CURRENT_OBJECT:GetPivot().Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+        if _distance >= 15 then
+            Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 7, 0), CURRENT_OBJECT:GetPivot().Position)})
+        end
+
+        if CURRENT_OBJECT.Humanod.Health <= 0 then
+            CURRENT_OBJECT = nil
+        end
     end
 end
+
+task.spawn(function()
+    while true do
+        if _G.Enabled == false then
+            break
+        end
+        AutoFarming()
+        task.wait()
+    end
+end)
 
 task.spawn(function()
     while true do
@@ -69,12 +102,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
-    while true do
-        if _G.Enabled == false then
-            break
-        end
-        AutoFarming()
-        task.wait()
-    end
+LocalPlayer.CharacterAdded:Connect(function()
+    task.wait(2)
+    Character = LocalPlayer.Character
 end)
