@@ -76,7 +76,7 @@ local function AutoFarming()
             Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 7, 0), CURRENT_OBJECT:GetPivot().Position)})
         end
 
-        if CURRENT_OBJECT.Humanod.Health <= 0 then
+        if CURRENT_OBJECT.Humanoid.Health <= 0 then
             CURRENT_OBJECT = nil
         end
     end
