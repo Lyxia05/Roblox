@@ -117,8 +117,16 @@ end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    AutoFarming()
+
+
+task.spawn(function()
+    while true do
+        if _G.Enabled == false then
+            break
+        end
+        AutoFarming()
+        task.wait()
+    end
 end)
 
 task.spawn(function()
@@ -134,4 +142,12 @@ end)
 LocalPlayer.CharacterAdded:Connect(function()
     task.wait(2)
     Character = LocalPlayer.Character
+end)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    for index, value in pairs(DungeonFolder:GetDescendants()) do
+        if value:IsA("BasePart") then
+            value.CanCollide = false
+        end
+    end
 end)
