@@ -77,20 +77,22 @@ local function getClosestMonster()
                 break
             end
 
-            for index, value2 in pairs(value.enemyFolder:GetChildren()) do
+            if value:FindFirstChild("enemyFolder") then
+                for index, value2 in pairs(value.enemyFolder:GetChildren()) do
 
-                if value2:IsA("Model") and value2:FindFirstChild("HumanoidRootPart") and value2.Humanoid.Health > 0 then
-
-                    local targetPosition = value2.HumanoidRootPart.Position
-                    local magnitude = (targetPosition - playerPosition).Magnitude
-
-                    if magnitude < closest.Magnitude or closest.Magnitude == 0 then
-                        --if closer then,
-                        closest["Monster"] = value2; closest["Magnitude"] = magnitude
+                    if value2:IsA("Model") and value2:FindFirstChild("HumanoidRootPart") and value2.Humanoid.Health > 0 then
+    
+                        local targetPosition = value2.HumanoidRootPart.Position
+                        local magnitude = (targetPosition - playerPosition).Magnitude
+    
+                        if magnitude < closest.Magnitude or closest.Magnitude == 0 then
+                            --if closer then,
+                            closest["Monster"] = value2; closest["Magnitude"] = magnitude
+                        end
+    
                     end
-
+    
                 end
-
             end
 
         end
