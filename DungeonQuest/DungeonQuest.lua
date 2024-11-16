@@ -103,7 +103,7 @@ local function AutoFarming()
         return
     end
 
-    local _distance = (Monster.Position - Character.HumanoidRootPart.Position).Magnitude
+    local _distance = (Monster:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
     Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = Monster:GetPivot() * CFrame.new(0, Monster.attackDistance.Value + 5, 0)})
 end
 
