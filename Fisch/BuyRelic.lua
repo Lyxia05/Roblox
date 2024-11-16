@@ -1,0 +1,8 @@
+task.spawn(function()
+    game.Players.LocalPlayer.Character:PivotTo(CFrame.new(-928.36261, 227.213318, -994.740906, 0.946196437, 0.0042249253, -0.323565036, -6.71191458e-08, 0.999914706, 0.0130561702, 0.323592633, -0.0123536251, 0.946115792))
+
+
+    while task.wait() do
+        workspace.world.npcs.Merlin.Merlin.power:InvokeServer()
+    end
+end)

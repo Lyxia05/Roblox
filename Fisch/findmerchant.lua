@@ -1,0 +1,7 @@
+game.Players.LocalPlayer.Character:PivotTo(CFrame.new(-1509.26648, 143.326874, 761.963318, -0.267143607, 0.00901480205, -0.963614523, 0, 0.99995625, 0.00935478602, 0.963656723, 0.00249907118, -0.267131925))
+task.wait(5)
+game.Players.LocalPlayer.Character:PivotTo(CFrame.new(-937.869812, 132.771591, -1106.7666, -0.90052247, -0.00565089704, 0.434772611, 1.58466342e-08, 0.999915481, 0.0129963569, -0.434809327, 0.0117034651, -0.900446415))
+task.wait(5)
+game.Players.LocalPlayer.Character:PivotTo(CFrame.new(-106.854942, 131.664642, 1896.6283, -0.993528545, 0.00134029833, -0.113574483, 4.70010386e-09, 0.999930382, 0.0118002482, 0.11358238, 0.0117238248, -0.993459344))
+task.wait(5)
+game.Players.LocalPlayer.Character:PivotTo(workspace.world.npcs["Travelling Merchant"]:GetPivot())
