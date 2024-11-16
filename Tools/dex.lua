@@ -4,12 +4,17 @@ loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))
 
 game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Freefall, false)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA6D6ISAS7Y6UROLCEKZZYGKWA"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA6J3DKP56OOXCVWQNGZZYGORA"))()
 
-_G.Number = 10
+_G.Number = 18
 
 game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Character.Humanoid:ChangeState(_G.Number)
+    for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+        if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+            v.CanCollide = false
+        end
+    end
 end)
 
 

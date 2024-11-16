@@ -140,3 +140,14 @@ LocalPlayer.CharacterAdded:Connect(function()
     task.wait(2)
     Character = LocalPlayer.Character
 end)
+
+_G.Number = 18
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(_G.Number)
+    for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+        if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+            v.CanCollide = false
+        end
+    end
+end)
