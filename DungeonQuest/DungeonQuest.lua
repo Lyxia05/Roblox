@@ -1,3 +1,7 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
 _G.Enabled = true
 
 -- SETTINGS --
@@ -71,7 +75,6 @@ local function AutoFarming()
     end
 
     if CURRENT_OBJECT ~= nil then
-
         if not Character:FindFirstChild("HumanoidRootPart") then
             return
         end
@@ -86,6 +89,8 @@ local function AutoFarming()
         end
     end
 end
+
+game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
 task.spawn(function()
     while true do
