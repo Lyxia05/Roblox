@@ -60,6 +60,10 @@ local function GetTime(Distance, Speed)
 end
 
 local function getClosestMonster()
+    if Character == nil then
+        return nil
+    end
+
     local closest = {Monster = nil, Magnitude = 0}
     local playerPosition = Character:WaitForChild("HumanoidRootPart").Position
 
