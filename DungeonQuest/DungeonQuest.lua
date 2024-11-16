@@ -54,8 +54,10 @@ local function AutoFarming()
         GetTarget()
     end
 
-    Character.HumanoidRootPart.Anchored = true
-    Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 7, 0), CURRENT_OBJECT:GetPivot().Position)})
+    if CURRENT_OBJECT ~= nil then
+        Character.HumanoidRootPart.Anchored = true
+        Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 7, 0), CURRENT_OBJECT:GetPivot().Position)})
+    end
 end
 
 task.spawn(function()
