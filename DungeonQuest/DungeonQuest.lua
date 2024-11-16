@@ -143,3 +143,9 @@ LocalPlayer.CharacterAdded:Connect(function()
     task.wait(2)
     Character = LocalPlayer.Character
 end)
+
+local HumanoidRootPart =  game.Players.LocalPlayer.Character.HumanoidRootPart
+local BodyVelocity = Instance.new("BodyVelocity")
+BodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+BodyVelocity.Velocity = HumanoidRootPart.CFrame.LookVector
+BodyVelocity.Parent = HumanoidRootPart
