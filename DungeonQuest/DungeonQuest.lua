@@ -79,7 +79,7 @@ local function getClosestMonster()
 
             for index, value2 in pairs(value.enemyFolder:GetChildren()) do
 
-                if value2:IsA("Model") and value2:FindFirstChild("HumanoidRootPart") and value2.Humanoid.Health <= 100 then
+                if value2:IsA("Model") and value2:FindFirstChild("HumanoidRootPart") and value2.Humanoid.Health > 0 then
 
                     local targetPosition = value2.HumanoidRootPart.Position
                     local magnitude = (targetPosition - playerPosition).Magnitude
