@@ -4,7 +4,13 @@ loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))
 
 game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Freefall, false)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA7VIWN7S6RAKXSBWPMZZYGADQ"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA67OJHNN2BDATLXUVWZZYGIKQ"))()
+
+_G.Number = 10
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(_G.Number)
+end)
 
 
 local bodyGyro = Instance.new("BodyGyro")
@@ -20,3 +26,4 @@ local BodyVelocity = Instance.new("BodyVelocity")
 BodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
 BodyVelocity.Velocity = HumanoidRootPart.CFrame.LookVector
 BodyVelocity.Parent = HumanoidRootPart
+
