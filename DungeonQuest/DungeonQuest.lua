@@ -59,8 +59,9 @@ local function GetTime(Distance, Speed)
 	return Time
 end
 
-local function GetTarget()
-    local Status = false
+local function getClosestMonster()
+    local closest = {Monster = nil, Magnitude = 0}
+    local playerPosition = Character:WaitForChild("HumanoidRootPart").Position
 
     for index, value in pairs(DungeonFolder:GetChildren()) do
         if value:IsA("Folder") then
@@ -72,15 +73,23 @@ local function GetTarget()
             for index, value2 in pairs(value.enemyFolder:GetChildren()) do
 
                 if value2:IsA("Model") and value2:FindFirstChild("HumanoidRootPart") then
-                    Status = true
-                    CURRENT_OBJECT = value2
-                    break
+
+                    local targetPosition = value2.HumanoidRootPart.Position
+                    local magnitude = (targetPosition - playerPosition).Magnitude
+
+                    if magnitude < closest.Magnitude or closest.Magnitude == 0 then
+                        --if closer then,
+                        closest["Monster"] = value2; closest["Magnitude"] = magnitude
+                    end
+
                 end
 
             end
 
         end
     end
+
+    return closest.Monster
 end
 
 local function AutoFarming()
@@ -88,38 +97,13 @@ local function AutoFarming()
         return
     end
 
-    if DELAY == true then
+    local Monster = getClosestMonster()
+    
+    if Monster == nil then
         return
     end
 
-    if CURRENT_OBJECT == nil then
-        GetTarget()
-    end
-
-    if CURRENT_OBJECT ~= nil then
-        if not Character:FindFirstChild("HumanoidRootPart") then
-            return
-        end
-
-        if SAVED_CF ~= nil then
-            local _distanceBetweenSaved = (SAVED_CF - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-
-            if _distanceBetweenSaved <= 5 then
-                Character:PivotTo(CFrame.new(SAVED_CF, CURRENT_OBJECT:GetPivot().Position))
-            end
-        end
-
-        local _distance = (CURRENT_OBJECT:GetPivot().Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-        if _distance >= 30 then
-            SAVED_CF = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.attackDistance.Value + 5, 0)
-            Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.attackDistance.Value, 0)})
-            task.wait(GetTime(_distance, Speed))
-        end
-
-        if CURRENT_OBJECT.Humanoid.Health <= 0 then
-            CURRENT_OBJECT = nil
-        end
-    end
+    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = Monster:GetPivot() * CFrame.new(0, Monster.attackDistance.Value + 5, 0)})
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
