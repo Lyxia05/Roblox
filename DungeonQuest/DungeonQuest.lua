@@ -39,7 +39,7 @@ local DELAY = false
 local SAVED_CF = nil
 
 --
-local CFrameValue = Instance.net(CFrameValue)
+local CFrameValue = Instance.new("CFrameValue")
 
 --
 local function Tween(object, time, properties)
