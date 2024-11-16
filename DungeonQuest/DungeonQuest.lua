@@ -1,3 +1,8 @@
+if game.PlaceId == 2414851778 then
+    return
+end
+
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
