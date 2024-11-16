@@ -64,6 +64,10 @@ local function getClosestMonster()
         return nil
     end
 
+    if not Character:FindFirstChild("HumanoidRootPart") then
+        return nil
+    end
+
     local closest = {Monster = nil, Magnitude = 0}
     local playerPosition = Character:WaitForChild("HumanoidRootPart").Position
 
