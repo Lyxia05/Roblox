@@ -33,13 +33,14 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 --
-local Speed = 50
+local Speed = 25
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
 
 --
 local CFrameValue = Instance.new("CFrameValue")
+CFrameValue.Value = Character:GetPivot()
 
 --
 local function Tween(object, time, properties)
@@ -147,8 +148,4 @@ end)
 
 CFrameValue.Changed:Connect(function()
     Character:PivotTo(CFrameValue.Value)
-end)
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end)
