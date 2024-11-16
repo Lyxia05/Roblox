@@ -1,3 +1,5 @@
+_G.Enabled = true
+
 -- SETTINGS --
 local KILLAURA_ARGS = {
     [1] = {
@@ -58,6 +60,9 @@ end
 
 task.spawn(function()
     while true do
+        if _G.Enabled == false then
+            break
+        end
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
         task.wait()
     end
@@ -65,6 +70,9 @@ end)
 
 task.spawn(function()
     while true do
+        if _G.Enabled == false then
+            break
+        end
         AutoFarming()
         task.wait()
     end
