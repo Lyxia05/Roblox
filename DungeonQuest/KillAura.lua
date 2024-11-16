@@ -1,3 +1,5 @@
+print("Testo")
+
 -- SETTINGS --
 local KILLAURA_ARGS = {
     [1] = {
