@@ -39,6 +39,9 @@ local DELAY = false
 local SAVED_CF = nil
 
 --
+local CFrameValue = Instance.net(CFrameValue)
+
+--
 local function Tween(object, time, properties)
     local NewTweenInfoTable = TweenInfo.new(
         time, -- Time
@@ -112,7 +115,7 @@ local function AutoFarming()
     end
 
     local _distance = (Monster:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
-    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CFrame.new(Monster:GetPivot().Position + Vector3.new(0, Monster.attackDistance.Value + 5, 0), Monster:GetPivot().Position)})
+    Tween(CFrameValue, GetTime(_distance, Speed), {Value = CFrame.new(Monster:GetPivot().Position + Vector3.new(0, Monster.attackDistance.Value + 5, 0), Monster:GetPivot().Position)})
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
@@ -140,6 +143,10 @@ end)
 LocalPlayer.CharacterAdded:Connect(function()
     task.wait(2)
     Character = LocalPlayer.Character
+end)
+
+CFrameValue.Changed:Connect(function()
+    Character:PivotTo(CFrameValue.Value)
 end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
