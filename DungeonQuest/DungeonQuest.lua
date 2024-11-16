@@ -80,11 +80,11 @@ local function AutoFarming()
         end
 
         local _distance = (CURRENT_OBJECT:GetPivot().Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-        if _distance >= 15 then
+        if _distance >= 30 then
             Tween(Character.HumanoidRootPart, TweenInfo.new(0.01), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.attackDistance.Value + 1, 0)})
         end
         
-        Character:PivotTo(CFrame.new(Character.HumanoidRootPart.Position, CURRENT_OBJECT:GetPivot().Position))
+        Character:PivotTo(CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, CURRENT_OBJECT.attackDistance.Value + 5, 0), CURRENT_OBJECT:GetPivot().Position))
 
         if CURRENT_OBJECT.Humanoid.Health <= 0 then
             CURRENT_OBJECT = nil
@@ -117,4 +117,8 @@ end)
 LocalPlayer.CharacterAdded:Connect(function()
     task.wait(2)
     Character = LocalPlayer.Character
+end)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(5)
 end)
