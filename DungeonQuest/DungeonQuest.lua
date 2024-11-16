@@ -108,7 +108,7 @@ local function AutoFarming()
             task.wait(GetTime(_distance, Speed))
         end
 
-        local _distanceBetweenSaved = (SAVED_CF.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+        local _distanceBetweenSaved = (SAVED_CF - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 
         if _distanceBetweenSaved <= 30 then
             Character:PivotTo(CFrame.new(SAVED_CF, CURRENT_OBJECT:GetPivot().Position))
