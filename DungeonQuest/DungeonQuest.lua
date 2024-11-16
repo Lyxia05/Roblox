@@ -113,7 +113,7 @@ local function AutoFarming()
     end
 
     local _distance = (Monster:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
-    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CFrame.new(Monster:GetPivot().Position + Vector3.new(0, Monster.attackDistance.Value + 5, 0), Monster:GetPivot().Position)})
+    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CFrame.new(Monster:GetPivot().Position + Vector3.new(0, 5, 0), Monster:GetPivot().Position)})
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
