@@ -33,14 +33,30 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 --
+local Speed = 100
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
 
 --
-local function Tween(object, tweenInfo, properties)
-    local tween = TweenService:Create(object, tweenInfo, properties)
+local function Tween(object, time, properties)
+    local NewTweenInfoTable = TweenInfo.new(
+        time, -- Time
+        Enum.EasingStyle.Linear,
+        Enum.EasingDirection.Out, 
+        0, -- RepeatCount (-1 = Infinite)
+        false, -- Reverse tween after finishing
+        0 -- DelayTime
+    )
+
+    local tween = TweenService:Create(object, NewTweenInfoTable, properties)
     tween:Play()
+end
+
+local function GetTime(Distance, Speed)
+	-- Time = Distance / Speed
+	local Time = Distance / Speed
+	return Time
 end
 
 local function GetTarget()
@@ -88,10 +104,15 @@ local function AutoFarming()
         local _distance = (CURRENT_OBJECT:GetPivot().Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
         if _distance >= 30 then
             SAVED_CF = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.attackDistance.Value + 5, 0)
-            Tween(Character.HumanoidRootPart, TweenInfo.new(1), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.attackDistance.Value, 0)})
+            Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.attackDistance.Value, 0)})
+            task.wait(GetTime(_distance, Speed))
         end
-        
-        Tween(Character.HumanoidRootPart, TweenInfo.new(1), {CFrame = CFrame.new(SAVED_CF, CURRENT_OBJECT:GetPivot().Position)})
+
+        local _distanceBetweenSaved = (SAVED_CF.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+
+        if _distanceBetweenSaved <= 30 then
+            Character:PivotTo(CFrame.new(SAVED_CF, CURRENT_OBJECT:GetPivot().Position))
+        end
 
         if CURRENT_OBJECT.Humanoid.Health <= 0 then
             CURRENT_OBJECT = nil
