@@ -4,7 +4,7 @@ loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))
 
 game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Freefall, false)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA7LQ64ARVXCJOIA76SZZYHBTQ"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA6IVYHQLXEXV55R2OOZZYHD7A"))()
 
 workspace.Gravity = 0
 game:GetService("RunService").RenderStepped:Connect(function()
