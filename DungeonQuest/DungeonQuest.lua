@@ -40,12 +40,13 @@ local SAVED_CF = nil
 --
 local CFrameObject = Instance.new("CFrameValue")
 CFrameObject.Value = LocalPlayer.Character:GetPivot()
+CFrameObject.Parent = workspace
 
 local bodyPosition = Instance.new("BodyPosition")
-bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
-bodyPosition.P = 3000 -- Adjust responsiveness
-bodyPosition.D = 100 -- Damping for smooth movement
+bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 10, 0)
+bodyPosition.MaxForce = Vector3.new(0, math.huge, 0)
+bodyPosition.P = 3000
+bodyPosition.D = 100 
 bodyPosition.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
 
 --
@@ -168,14 +169,12 @@ LocalPlayer.CharacterAdded:Connect(function()
     Character = LocalPlayer.Character
 
     local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
-
     bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
-    bodyPosition.P = 3000 -- Adjust responsiveness
-    bodyPosition.D = 100 -- Damping for smooth movement
+    bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 10, 0)
+    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0)
+    bodyPosition.P = 3000
+    bodyPosition.D = 100 
     bodyPosition.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-
 end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
