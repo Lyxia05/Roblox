@@ -142,10 +142,8 @@ local function AutoFarming()
         Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
     else
         ClipEnabled = false
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
         SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0 , CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0)})
         SAVED_TWEEN.Completed:Wait()
-        task.wait(1)
     end
 end
 
