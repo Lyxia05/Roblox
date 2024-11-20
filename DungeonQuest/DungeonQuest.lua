@@ -138,8 +138,8 @@ local function AutoFarming()
 
     if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8 then
         if SAVED_TWEEN ~= nil then
-            SAVED_TWEEN = nil
             SAVED_TWEEN:Cancel()
+            SAVED_TWEEN = nil
         end
         ClipEnabled = true
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
