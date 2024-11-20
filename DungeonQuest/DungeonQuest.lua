@@ -143,7 +143,6 @@ local function AutoFarming()
     if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 15 then
         ClipEnabled = true
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-    else
         ClipEnabled = false
     end
 end
