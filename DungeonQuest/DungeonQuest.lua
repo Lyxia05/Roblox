@@ -32,7 +32,7 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 --
-local Speed = 100
+local Speed = 50
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
@@ -136,14 +136,14 @@ local function AutoFarming()
 
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
 
-    if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 15 then
+    if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8 then
         ClipEnabled = true
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-        Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
+        Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
     else
         ClipEnabled = false
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-        SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot()})
+        SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0 , CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0)})
         SAVED_TWEEN.Completed:Wait()
     end
 end
