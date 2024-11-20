@@ -142,7 +142,7 @@ end
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
 CFrameObject.Changed:Connect(function()
-    bodyPosition.Position = CFrameObject.Value.Position
+    bodyPosition.Position = CFrameObject.Value.Position + Vector3.new(0, 5, 0)
 end)
 
 task.spawn(function()
