@@ -41,6 +41,14 @@ local SAVED_TWEEN = nil
 local LAST_UPDATE = os.clock()
 
 --
+local bodyPosition = Instance.new("BodyPosition")
+bodyPosition.Position = HumanoidRootPart.Position + Vector3.new(0, 1000, 0) -- Float 10 studs above the current position
+bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+bodyPosition.P = 3000 -- Adjust responsiveness
+bodyPosition.D = 100 -- Damping for smooth movement
+bodyPosition.Parent = HumanoidRootPart
+
+--
 local function Tween(object, time, properties)
     local NewTweenInfoTable = TweenInfo.new(
         time, -- Time
@@ -136,15 +144,8 @@ local function AutoFarming()
         return
     end
 
-    local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
-    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, 0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5)})
-
-    if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5 then
-        ClipEnabled = true
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-    else
-        ClipEnabled = false
-    end
+    Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.Angles(math.rad(-90), 0, math.rad(90))
+    bodyPosition.Position = CURRENT_OBJECT:GetPivot().Position
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
@@ -171,6 +172,15 @@ end)
 
 LocalPlayer.CharacterAdded:Connect(function()
     Character = LocalPlayer.Character
+
+    local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+
+    bodyPosition = Instance.new("BodyPosition")
+    bodyPosition.Position = HumanoidRootPart.Position + Vector3.new(0, 1000, 0) -- Float 10 studs above the current position
+    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+    bodyPosition.P = 3000 -- Adjust responsiveness
+    bodyPosition.D = 100 -- Damping for smooth movement
+    bodyPosition.Parent = HumanoidRootPart
 end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
@@ -180,10 +190,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
     if not Character:FindFirstChild("HumanoidRootPart") then
         return
-    end
-
-    if ClipEnabled == false then
-        Character.HumanoidRootPart.Anchored = false
     end
 
     Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
