@@ -182,16 +182,3 @@ LocalPlayer.CharacterAdded:Connect(function()
     bodyPosition.D = 100 -- Damping for smooth movement
     bodyPosition.Parent = HumanoidRootPart
 end)
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    if not Character then
-        return
-    end
-
-    if not Character:FindFirstChild("HumanoidRootPart") then
-        return
-    end
-
-    Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-    Character.Humanoid.PlatformStand = true
-end)
