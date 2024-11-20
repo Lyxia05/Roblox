@@ -32,7 +32,7 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 --
-local Speed = 50
+local Speed = 25
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
