@@ -118,18 +118,21 @@ local function AutoFarming()
 
     if os.clock() - LAST_UPDATE >= 10 then
         LAST_UPDATE = os.clock()
+        ClipEnabled = false
         CURRENT_OBJECT = getClosestMonster()
         return
     end
 
     if CURRENT_OBJECT == nil then
         LAST_UPDATE = os.clock()
+        ClipEnabled = false
         CURRENT_OBJECT = getClosestMonster()
         return
     end
 
     if CURRENT_OBJECT ~= nil and CURRENT_OBJECT:FindFirstChild("Humanoid") and CURRENT_OBJECT.Humanoid.Health <= 0 then
         LAST_UPDATE = os.clock()
+        ClipEnabled = false
         CURRENT_OBJECT = getClosestMonster()
         return
     end
@@ -137,13 +140,18 @@ local function AutoFarming()
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
 
     if _distance <= 5 then
+        if SAVED_TWEEN ~= nil then
+            SAVED_TWEEN:Cancel()
+        end
         ClipEnabled = true
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
         Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
     else
+        if ClipEnabled == true then
+            return
+        end
         ClipEnabled = false
         SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot()})
-        task.wait(1)
     end
 end
 
