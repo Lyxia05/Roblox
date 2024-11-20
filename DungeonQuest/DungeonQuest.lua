@@ -32,7 +32,7 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 --
-local Speed = 50
+local Speed = 100
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
@@ -143,6 +143,7 @@ local function AutoFarming()
     if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 15 then
         ClipEnabled = true
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+    else
         ClipEnabled = false
     end
 end
