@@ -138,7 +138,7 @@ local function AutoFarming()
     end
 
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
-    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))})
+    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8,, 0 0)})
 
     if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8 then
         ClipEnabled = true
