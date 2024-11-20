@@ -36,18 +36,9 @@ local Speed = 50
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
-
---
-local CFrameObject = Instance.new("CFrameValue")
-CFrameObject.Value = LocalPlayer.Character:GetPivot()
-CFrameObject.Parent = workspace
-
-local bodyPosition = Instance.new("BodyPosition")
-bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 10, 0)
-bodyPosition.MaxForce = Vector3.new(0, math.huge, 0)
-bodyPosition.P = 3000
-bodyPosition.D = 100 
-bodyPosition.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+local ClipEnabled = false
+local SAVED_TWEEN = nil
+local LAST_UPDATE = os.clock()
 
 --
 local function Tween(object, time, properties)
@@ -62,17 +53,8 @@ local function Tween(object, time, properties)
 
     local tween = TweenService:Create(object, NewTweenInfoTable, properties)
     tween:Play()
-end
 
-local function Nocl()
-    if game.Players.LocalPlayer.Character ~= nil then
-        for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-            if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
-                v.CanCollide = false
-            end
-        end
-    end
-    wait(0.21) -- basic optimization
+    return tween
 end
 
 local function GetTime(Distance, Speed)
@@ -129,21 +111,41 @@ local function AutoFarming()
         return
     end
 
-    local Monster = getClosestMonster()
-    
-    if Monster == nil then
-        return
+    if os.clock() - LAST_UPDATE >= 10 then
+        LAST_UPDATE = os.clock()
+        CURRENT_OBJECT = getClosestMonster()
     end
 
-    local _distance = (Monster:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
-    Tween(CFrameObject, GetTime(_distance, Speed), {Value = Monster:GetPivot()})
+    if CURRENT_OBJECT == nil then
+        LAST_UPDATE = os.clock()
+        CURRENT_OBJECT = getClosestMonster()
+    end
+
+    if CURRENT_OBJECT ~= nil and CURRENT_OBJECT:FindFirstChild("Humanoid") and CURRENT_OBJECT.Humanoid.Health <= 0 then
+        LAST_UPDATE = os.clock()
+        CURRENT_OBJECT = getClosestMonster()
+    end
+
+    if not CURRENT_OBJECT:IsA("Model") then
+        LAST_UPDATE = os.clock()
+        CURRENT_OBJECT = getClosestMonster()
+    end
+
+    local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
+
+    if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 10 then
+        SAVED_TWEEN:Cancel()
+        ClipEnabled = true
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+        Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
+    else
+        ClipEnabled = false
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+        SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot()})
+    end
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
-
-CFrameObject.Changed:Connect(function()
-    bodyPosition.Position = CFrameObject.Value.Position + Vector3.new(0, 5, 0)
-end)
 
 task.spawn(function()
     while true do
@@ -167,22 +169,21 @@ end)
 
 LocalPlayer.CharacterAdded:Connect(function()
     Character = LocalPlayer.Character
-
-    local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
-    bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 10, 0)
-    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0)
-    bodyPosition.P = 3000
-    bodyPosition.D = 100 
-    bodyPosition.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
 end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState(10)
-end)
-
-for index, value in pairs(workspace:GetDescendants()) do
-    if value:IsA("BasePart") then
-        value.CanCollide = false
+    if not Character then
+        return
     end
-end
+
+    if not Character:FindFirstChild("HumanoidRootPart") then
+        return
+    end
+
+    if ClipEnabled == false then
+        Character.HumanoidRootPart.Anchored = true
+    end
+
+    Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+    Character.Humanoid.PlatformStand = true
+end)
