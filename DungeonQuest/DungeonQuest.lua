@@ -186,7 +186,9 @@ game:GetService("RunService").RenderStepped:Connect(function()
     if ClipEnabled == false then
         Character.HumanoidRootPart.Anchored = true
     else
-        SAVED_TWEEN:Cancel()
+        if SAVED_TWEEN ~= nil then
+            SAVED_TWEEN:Cancel()
+        end
     end
 
     Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
