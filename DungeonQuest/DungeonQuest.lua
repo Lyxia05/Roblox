@@ -137,6 +137,10 @@ local function AutoFarming()
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
 
     if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 20 then
+        if SAVED_TWEEN ~= nil then
+            SAVED_TWEEN:Cancel()
+            SAVED_TWEEN = nil
+        end
         ClipEnabled = true
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
         Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
@@ -165,7 +169,7 @@ task.spawn(function()
             break
         end
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
-        task.wait(0.1)
+        task.wait()
     end
 end)
 
