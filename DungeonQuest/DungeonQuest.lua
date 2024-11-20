@@ -136,7 +136,7 @@ local function AutoFarming()
 
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
 
-    if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 20 then
+    if _distance <= 5 then
         if SAVED_TWEEN ~= nil then
             SAVED_TWEEN:Cancel()
             SAVED_TWEEN = nil
@@ -146,7 +146,7 @@ local function AutoFarming()
         Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
     else
         ClipEnabled = false
-        SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0 , CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0)})
+        SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot()})
         SAVED_TWEEN.Completed:Wait()
     end
 end
