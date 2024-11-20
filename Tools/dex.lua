@@ -1,7 +1,7 @@
 loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))()
 
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA63JMQB7LKDZ4RVOT2ZZ6HSJA"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA6ORGTCQ73TTHYEN3WZZ6JC6A"))()
 
 
 workspace.kerse.HumanoidRootPart.BodyPosition.Position = workspace.Value.Value.Position + Vector3.new(0, 30 ,0)

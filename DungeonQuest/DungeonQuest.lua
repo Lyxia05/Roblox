@@ -114,21 +114,19 @@ local function AutoFarming()
     if os.clock() - LAST_UPDATE >= 10 then
         LAST_UPDATE = os.clock()
         CURRENT_OBJECT = getClosestMonster()
+        return
     end
 
     if CURRENT_OBJECT == nil then
         LAST_UPDATE = os.clock()
         CURRENT_OBJECT = getClosestMonster()
+        return
     end
 
     if CURRENT_OBJECT ~= nil and CURRENT_OBJECT:FindFirstChild("Humanoid") and CURRENT_OBJECT.Humanoid.Health <= 0 then
         LAST_UPDATE = os.clock()
         CURRENT_OBJECT = getClosestMonster()
-    end
-
-    if not CURRENT_OBJECT:IsA("Model") then
-        LAST_UPDATE = os.clock()
-        CURRENT_OBJECT = getClosestMonster()
+        return
     end
 
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
