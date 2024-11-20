@@ -180,3 +180,9 @@ end)
 game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Character.Humanoid:ChangeState(10)
 end)
+
+for index, value in pairs(workspace:GetDescendants()) do
+    if value:IsA("BasePart") then
+        value.CanCollide = false
+    end
+end
