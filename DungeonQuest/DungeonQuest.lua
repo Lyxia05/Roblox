@@ -144,7 +144,6 @@ local function AutoFarming()
         return
     end
 
-    Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.Angles(math.rad(-90), 0, math.rad(90))
     bodyPosition.Position = CURRENT_OBJECT:GetPivot().Position
 end
 
