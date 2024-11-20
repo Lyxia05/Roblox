@@ -139,7 +139,7 @@ local function AutoFarming()
 
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
 
-    if _distance <= 5 then
+    if _distance <= CURRENT_OBJECT.HumanoidRootPart.Size.Y + 20 then
         if SAVED_TWEEN ~= nil then
             SAVED_TWEEN:Cancel()
         end
