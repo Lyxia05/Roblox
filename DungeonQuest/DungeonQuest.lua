@@ -111,6 +111,10 @@ local function AutoFarming()
         return
     end
 
+    if not Character:FindFirstChild("HumanoidRootPart") then
+        return
+    end
+
     if os.clock() - LAST_UPDATE >= 10 then
         LAST_UPDATE = os.clock()
         CURRENT_OBJECT = getClosestMonster()
