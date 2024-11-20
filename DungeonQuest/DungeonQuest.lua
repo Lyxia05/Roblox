@@ -145,6 +145,7 @@ local function AutoFarming()
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
         SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0 , CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0)})
         SAVED_TWEEN.Completed:Wait()
+        task.wait(2)
     end
 end
 
@@ -181,6 +182,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
     if not Character:FindFirstChild("HumanoidRootPart") then
         return
+    end
+
+    if ClipEnabled == false then
+        Character.HumanoidRootPart.Anchored = true
     end
 
     Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
