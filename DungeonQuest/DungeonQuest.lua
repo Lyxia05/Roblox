@@ -151,7 +151,7 @@ local function AutoFarming()
             return
         end
         ClipEnabled = false
-        SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot()})
+        SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.Angles(math.rad(-90), 0, math.rad(90))})
     end
 end
 
