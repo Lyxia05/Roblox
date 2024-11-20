@@ -147,7 +147,6 @@ local function AutoFarming()
     else
         ClipEnabled = false
         SAVED_TWEEN = Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CURRENT_OBJECT:GetPivot()})
-        SAVED_TWEEN.Completed:Wait()
     end
 end
 
