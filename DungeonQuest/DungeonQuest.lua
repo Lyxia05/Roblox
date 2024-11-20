@@ -144,7 +144,7 @@ local function AutoFarming()
         return
     end
 
-    Character.Humanoid.BodyPosition.Position = CURRENT_OBJECT:GetPivot().Position
+    Character.Humanoid.BodyPosition.Position = CURRENT_OBJECT:GetPivot().Position + Vecotr3.new(0, 10, 0)
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
