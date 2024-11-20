@@ -192,5 +192,6 @@ RunService.RenderStepped:Connect(function()
         return
     end
 
-    Character.
+    Character.Humanoid:ChangeState(16)
+    Character.Humanoid.PlatformStand = true
 end)
