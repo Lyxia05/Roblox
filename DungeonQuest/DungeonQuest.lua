@@ -42,11 +42,11 @@ local LAST_UPDATE = os.clock()
 
 --
 local bodyPosition = Instance.new("BodyPosition")
-bodyPosition.Position = HumanoidRootPart.Position + Vector3.new(0, 1000, 0) -- Float 10 studs above the current position
+bodyPosition.Position = Character.HumanoidRootPart.Position + Vector3.new(0, 1000, 0) -- Float 10 studs above the current position
 bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
 bodyPosition.P = 3000 -- Adjust responsiveness
 bodyPosition.D = 100 -- Damping for smooth movement
-bodyPosition.Parent = HumanoidRootPart
+bodyPosition.Parent = Character.HumanoidRootPart
 
 --
 local function Tween(object, time, properties)
