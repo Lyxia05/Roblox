@@ -43,7 +43,7 @@ local LAST_UPDATE = os.clock()
 --
 local bodyPosition = Instance.new("BodyPosition")
 bodyPosition.Position = Character.HumanoidRootPart.Position
-bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+bodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge) -- Allow only upward force
 bodyPosition.P = 3000 -- Adjust responsiveness
 bodyPosition.D = 100 -- Damping for smooth movement
 bodyPosition.Parent = Character.HumanoidRootPart
