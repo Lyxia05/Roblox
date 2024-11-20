@@ -91,7 +91,6 @@ local function getClosestMonster()
                         local magnitude = (targetPosition - playerPosition).Magnitude
     
                         if magnitude < closest.Magnitude or closest.Magnitude == 0 then
-                            --if closer then,
                             closest["Monster"] = value2
                             closest["Magnitude"] = magnitude
                         end
@@ -184,7 +183,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 
     if ClipEnabled == false then
-        Character.HumanoidRootPart.Anchored = true
+        Character.HumanoidRootPart.Anchored = false
     end
 
     Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
