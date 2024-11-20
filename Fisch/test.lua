@@ -250,7 +250,12 @@ while true do
 end
 
 game.Players.LocalPlayer.Character:PivotTo(CFrame.new(-928.36261, 227.213318, -994.740906, 0.946196437, 0.0042249253, -0.323565036, -6.71191458e-08, 0.999914706, 0.0130561702, 0.323592633, -0.0123536251, 0.946115792))
-workspace.world.npcs.Merlin.Merlin.power:InvokeServer()
+workspace.world.npcs.Merlin.Merlin.luck:InvokeServer()
+
+for i = 1, 100 do
+    workspace.world.npcs.Merlin.Merlin.luck:InvokeServer()
+    task.wait()
+end
 
 game.Players.LocalPlayer.Character:PivotTo(CFrame.new(1308.83472, -803.820496, -99.0600815, -0.999974251, -7.29177846e-05, 0.00716413045, -6.87956012e-11, 0.999948204, 0.0101777008, -0.00716450112, 0.0101773795, -0.999922514))
 
@@ -431,16 +436,76 @@ workspace.active.boats["DuoSerigala1354"].Jetski:PivotTo(CFrame.new(-143.693161,
 
 workspace.active.boats["KeongRacun1351"]["Luxury Speedboat"]:PivotTo(CFrame.new(-143.693161, -505.694397, 1134.36511, 0.991619647, -0.00164267782, 0.1291807, -2.14712337e-08, 0.999919116, 0.012715321, -0.129191145, -0.0126087051, 0.991539478))
 
-workspace.active.boats["DuoSerigala1354"].Jetski:PivotTo(workspace.world.map["Desolate Deep"].TridentTemple.Interactive.TridentGlyph:GetPivot())
+workspace.active.boats["LaptopLama11"].Jetski:PivotTo(workspace.world.map["Desolate Deep"].TridentTemple.Interactive.TridentGlyph:GetPivot())
 
-workspace.active.boats["DuoSerigala1354"].Jetski:PivotTo(CFrame.new(1308.83472, -803.820496, -99.0600815, -0.999974251, -7.29177846e-05, 0.00716413045, -6.87956012e-11, 0.999948204, 0.0101777008, -0.00716450112, 0.0101773795, -0.999922514))
+workspace.active.boats["LaptopLama11"].Jetski:PivotTo(CFrame.new(1308.83472, -803.820496, -99.0600815, -0.999974251, -7.29177846e-05, 0.00716413045, -6.87956012e-11, 0.999948204, 0.0101777008, -0.00716450112, 0.0101773795, -0.999922514))
 
 workspace.active.boats["KeongRacun1351"]["Luxury Speedboat"]:PivotTo(workspace.world.map["Desolate Deep"].TridentTemple.Interactive.TridentGlyph:GetPivot())
 
-workspace.active.boats["DuoSerigala1354"].Jetski:PivotTo(CFrame.new(-1799.14319, -141.650131, -3300.59033, -0.092818059, 0.0129585043, -0.995598674, 4.85183872e-11, 0.999915242, 0.0130147478, 0.995683014, 0.00120799814, -0.0928101987))
+workspace.active.boats["LaptopLama11"].Jetski:PivotTo(CFrame.new(-1799.14319, -141.650131, -3300.59033, -0.092818059, 0.0129585043, -0.995598674, 4.85183872e-11, 0.999915242, 0.0130147478, 0.995683014, 0.00120799814, -0.0928101987))
 
 -- Aurora totem jet ski
 workspace.active.boats["DuoSerigala1354"].Jetski:PivotTo(CFrame.new(-1799.14319, -138.650131, -3300.59033, -0.092818059, 0.0129585043, -0.995598674, 4.85183872e-11, 0.999915242, 0.0130147478, 0.995683014, 0.00120799814, -0.0928101987))
 
 --
-workspace.active.boats["DuoSerigala1354"].Jetski:PivotTo(CFrame.new(379.349854, 135.981995, 252.739365, 0.0654996559, -0.0129965823, 0.997767866, -4.99083885e-09, 0.999915063, 0.0130246123, -0.997852504, -0.000853108766, 0.0654940978))
+workspace.active.boats["LaptopLama11"].Jetski:PivotTo(CFrame.new(379.349854, 135.981995, 252.739365, 0.0654996559, -0.0129965823, 0.997767866, -4.99083885e-09, 0.999915063, 0.0130246123, -0.997852504, -0.000853108766, 0.0654940978))
+
+workspace.active.boats["LaptopLama11"].Jetski:PivotTo(workspace.world.spawns.TpSpots.depthsmazeend.CFrame)
+
+workspace.world.spawns.TpSpots.depthsmazeend.CFrame
+
+
+for index, cardata in pairs(game:GetService("ReplicatedStorage").CarData:GetChildren()) do
+    if string.find(cardata.CarName.Value, "Metsibis") or 
+        string.find(cardata.CarName.Value, "Mestibis") 
+    then
+        cardata.CarName.Value = 
+    end
+end
+
+workspace.kerse:PivotTo(workspace.world.map["Desolate Deep"].TridentTemple.Interactive.TridentGlyph:GetPivot())
+workspace.kerse:PivotTo(workspace.world.spawns.TpSpots.depthsmazeend.CFrame)
+
+workspace.kerse:PivotTo(workspace.takkutat:GetPivot())
+
+
+workspace.kerse:PivotTo(CFrame.new(-2677.74146, 166.230133, 1751.73364, 0.172691628, -0.0184644088, 0.984802723, -0.00562378066, 0.999789417, 0.0197316147, -0.984959722, -0.00894575007, 0.172551438))
+
+workspace.kerse:PivotTo(CFrame.new(-108.59536, -732.282532, 1213.84302, -0.98443377, 0.00203714357, -0.175743878, 4.63249439e-10, 0.999932766, 0.0115908245, 0.17575568, 0.0114103416, -0.984367669))
+
+
+workspace.world.interactables["Enchant Altar"].ProximityPrompt.Enabled = true
+
+workspace.kerse:PivotTo(workspace.world.map["Forsaken Shores"]["Open Chest"].Coin.CFrame)
+
+workspace.kerse:PivotTo(CFrame.new(1256.724, 87.825, 627.428))
+
+workspace.kerse:PivotTo(CFrame.new(-2677.74146, 166.230133, 1751.73364, 0.172691628, -0.0184644088, 0.984802723, -0.00562378066, 0.999789417, 0.0197316147, -0.984959722, -0.00894575007, 0.172551438))
+
+
+local args = {
+    [1] = {
+        ["y"] = 2889.96,
+        ["x"] = 41.557,
+        ["z"] = 3125.344
+    }
+}
+
+game:GetService("ReplicatedStorage").events.open_treasure:FireServer(unpack(args))
+
+
+for index, value in pairs(workspace.world.chests:GetChildren()) do
+    workspace.kerse:PivotTo(value.CFrame * CFrame.new(0, 5, 0))
+    break
+end
+
+workspace.kerse:PivotTo(workspace.world.spawns.TpSpots.deep.CFrame)
+workspace.kerse:PivotTo(workspace.world.interactables["Reinforced Rod"]:GetPivot())
+
+
+
+
+-- Script generated by SimpleSpy - credits to exx#9394
+-- Repair Map
+workspace.kerse:PivotTo(CFrame.new(-2833.14917, 217.015137, 1523.05383, -0.379466087, -0.0191313699, 0.925007761, -1.45022012e-08, 0.999786079, 0.0206780173, -0.925205588, 0.00784657151, -0.379384965))
+workspace.world.npcs:FindFirstChild("Jack Marrow").treasure.repairmap:InvokeServer()

@@ -21,8 +21,8 @@ function fireproximityprompt(ProximityPrompt, Amount, Skip)
     ProximityPrompt.HoldDuration = HoldDuration
 end
 
-for index, value in pairs(workspace.active:GetDescendants()) do
-    if value:IsA("ProximityPrompt") and value.Parent.Name == "DuoSerigala1354" and value.Enabled == true then
+for index, value in pairs(workspace.world.chests:GetDescendants()) do
+    if value:IsA("ProximityPrompt") then
         fireproximityprompt(value, 1, true)
     end
 end

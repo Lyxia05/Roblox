@@ -38,6 +38,17 @@ local DELAY = false
 local SAVED_CF = nil
 
 --
+local CFrameObject = Instance.new("CFrameValue")
+CFrameObject.Value = LocalPlayer.Character:GetPivot()
+
+local bodyPosition = Instance.new("BodyPosition")
+bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+bodyPosition.P = 3000 -- Adjust responsiveness
+bodyPosition.D = 100 -- Damping for smooth movement
+bodyPosition.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+--
 local function Tween(object, time, properties)
     local NewTweenInfoTable = TweenInfo.new(
         time, -- Time
@@ -50,6 +61,17 @@ local function Tween(object, time, properties)
 
     local tween = TweenService:Create(object, NewTweenInfoTable, properties)
     tween:Play()
+end
+
+local function Nocl()
+    if game.Players.LocalPlayer.Character ~= nil then
+        for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+            if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+                v.CanCollide = false
+            end
+        end
+    end
+    wait(0.21) -- basic optimization
 end
 
 local function GetTime(Distance, Speed)
@@ -113,10 +135,14 @@ local function AutoFarming()
     end
 
     local _distance = (Monster:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
-    Tween(Character.HumanoidRootPart, GetTime(_distance, Speed), {CFrame = CFrame.new(Monster:GetPivot().Position + Vector3.new(0, 10, 0), Monster:GetPivot().Position)})
+    Tween(CFrameObject, GetTime(_distance, Speed), {Value = Monster:GetPivot()})
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
+
+CFrameObject.Changed:Connect(function()
+    bodyPosition.Position = CFrameObject.Value.Position
+end)
 
 task.spawn(function()
     while true do
@@ -139,11 +165,19 @@ task.spawn(function()
 end)
 
 LocalPlayer.CharacterAdded:Connect(function()
-    task.wait(2)
     Character = LocalPlayer.Character
+
+    local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+
+    bodyPosition = Instance.new("BodyPosition")
+    bodyPosition.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+    bodyPosition.P = 3000 -- Adjust responsiveness
+    bodyPosition.D = 100 -- Damping for smooth movement
+    bodyPosition.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+
 end)
 
-workspace.Gravity = 0
 game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Character.Humanoid:ChangeState(10)
 end)

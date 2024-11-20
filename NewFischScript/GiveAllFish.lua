@@ -1,4 +1,4 @@
-_G.Username = "PempekPalembang1351"
+_G.Username = "yamanaruuu"
 
 local function GiveAllToolsToUser()
     for index, value in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do

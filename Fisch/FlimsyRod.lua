@@ -1,6 +1,7 @@
 print("Loaded 11")
 _G.RodName = "Flimsy Rod"
-_G.Username = "TempeGoreng1354"
+_G.Enabled = true
+_G.SavedCF = CFrame.new(-2677.74146, 166.230133, 1751.73364, 0.172691628, -0.0184644088, 0.984802723, -0.00562378066, 0.999789417, 0.0197316147, -0.984959722, -0.00894575007, 0.172551438)
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -63,19 +64,18 @@ end
 AntiAfk()
 
 task.spawn(function()
-    while true do
+    while _G.Enabled == true do
         local shakeui = PlayerGui:FindFirstChild("shakeui")
         local reel = PlayerGui:FindFirstChild("reel")
-        local distance = (game.Players.LocalPlayer.Character:GetPivot().Position - Vector3.new(2819, 131.978271, 2691.18872)).Magnitude
+        local distance = (game.Players.LocalPlayer.Character:GetPivot().Position - _G.SavedCF.Position).Magnitude
         local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:wait()
-        local _playerToGive = Players:FindFirstChild(_G.Username)
 
-        if not _playerToGive and Character and not Character:FindFirstChild(_G.RodName) then
+        if Character and not Character:FindFirstChild(_G.RodName) then
             Character.Humanoid:EquipTool(LocalPlayer.Backpack[_G.RodName])
         end
 
         if distance >= 5 then
-            game.Players.LocalPlayer.Character:PivotTo(CFrame.new(2819, 131.978271, 2691.18872, 0.409354925, 2.59049784e-06, -0.912375212, 4.81721258e-07, 0.99999994, 3.11049507e-06, 0.912375212, -1.68074405e-06, 0.409354925))
+            game.Players.LocalPlayer.Character:PivotTo(_G.SavedCF)
         end
     
         if shakeui then
@@ -95,24 +95,5 @@ task.spawn(function()
         end
         
         task.wait(3)
-    end
-end)
-
-task.spawn(function()
-    while true do
-        local _playerToGive = Players:FindFirstChild(_G.Username)
-        local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:wait()
-        local reel = PlayerGui:FindFirstChild("reel")
-
-        if _playerToGive and _playerToGive.leaderstats.Level.Value > 0 and _playerToGive.DoneLoading.Value == true and _playerToGive.assetsloaded.Value == true and not reel then
-
-            if Character and Character:FindFirstChild(_G.RodName) then
-                Character.Humanoid:UnequipTools(Character[_G.RodName])
-            end
-
-            GiveAllToolsToUser()
-        end
-
-        task.wait(0.1)
     end
 end)
