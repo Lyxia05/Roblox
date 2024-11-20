@@ -32,7 +32,7 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 --
-local Speed = 25
+local Speed = 100
 local CURRENT_OBJECT = nil
 local DELAY = false
 local SAVED_CF = nil
@@ -181,10 +181,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
     if not Character:FindFirstChild("HumanoidRootPart") then
         return
-    end
-
-    if ClipEnabled == false then
-        Character.HumanoidRootPart.Anchored = true
     end
 
     Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
