@@ -189,4 +189,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     if ClipEnabled == false then
         Character.HumanoidRootPart.Anchored = true
     end
+
+    Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+    Character.Humanoid.PlatformStand = true
 end)
