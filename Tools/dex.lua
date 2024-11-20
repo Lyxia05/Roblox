@@ -1,7 +1,7 @@
 loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))()
 
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA6EHH37UGF2N5ZT5TEZZ6NZ5Q"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/DungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA64KH5DN25EZOUF6XWZZ6N3UA"))()
 
 
 workspace.kerse.HumanoidRootPart.BodyPosition:Destroy()

@@ -144,7 +144,8 @@ local function AutoFarming()
         return
     end
 
-    Character.HumanoidRootPart["BodyPosition"].Position = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 10, 0)
+    Character.HumanoidRootPart.CFame = Character.HumanoidRootPart.CFame * CFrame.Angles(math.rad(-90), 0, math.rad(90))
+    Character.HumanoidRootPart["BodyPosition"].Position = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 3, 0)
 end
 
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
@@ -180,4 +181,16 @@ LocalPlayer.CharacterAdded:Connect(function()
     bodyPosition.P = 3000 -- Adjust responsiveness
     bodyPosition.D = 100 -- Damping for smooth movement
     bodyPosition.Parent = HumanoidRootPart
+end)
+
+RunService.RenderStepped:Connect(function()
+    if not Character then
+        return
+    end
+
+    if not Character:FindFirstChild("Humanoid") then
+        return
+    end
+
+    Character.
 end)
