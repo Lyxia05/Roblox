@@ -137,10 +137,7 @@ local function AutoFarming()
     local _distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
 
     if _distance <= 5 then
-        if SAVED_TWEEN ~= nil then
-            SAVED_TWEEN:Cancel()
-            SAVED_TWEEN = nil
-        end
+        task.wait(1)
         ClipEnabled = true
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
         Character.HumanoidRootPart.CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
