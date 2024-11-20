@@ -91,7 +91,7 @@ local function getClosestMonster()
                         local targetPosition = value2.HumanoidRootPart.Position
                         local magnitude = (targetPosition - playerPosition).Magnitude
     
-                        if magnitude < closest.Magnitude and MonsterSize < closest.Size or closest.Magnitude == 0 and closest.Size == 0 then
+                        if magnitude < closest.Magnitude and MonsterSize > closest.Size or closest.Magnitude == 0 and closest.Size == 0 then
                             --if closer then,
                             closest["Monster"] = value2
                             closest["Magnitude"] = magnitude
