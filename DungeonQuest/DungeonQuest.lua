@@ -100,15 +100,20 @@ local function AutoFarming()
 
     -- If no valid target or current target is dead, find a new one
     if not CURRENT_OBJECT or not CURRENT_OBJECT:FindFirstChild("Humanoid") or CURRENT_OBJECT.Humanoid.Health <= 0 then
+        -- Find the closest valid monster
         CURRENT_OBJECT = getClosestMonster()
-        return
+        
+        -- If no valid monster found, return
+        if not CURRENT_OBJECT then
+            return
+        end
     end
 
     -- Calculate destination
-    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8, 0)
+    local targetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8, 0)
 
     -- Move to target
-    MoveToTarget(TargetPosition)
+    MoveToTarget(targetPosition)
 end
 
 -- Start Dungeon
