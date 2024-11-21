@@ -111,6 +111,9 @@ local function AutoFarming()
     MoveToTarget(TargetPosition)
 end
 
+-- Start Dungeon
+game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
+
 -- Farming Loop
 task.spawn(function()
     while true do
