@@ -137,61 +137,58 @@ local function setupCharacter()
 
     local rootPart = Character:WaitForChild("HumanoidRootPart")
     
-    -- Disable collisions for the HumanoidRootPart
+    -- Disable collisions for the HumanoidRootPart and all parts of the character
     rootPart.CanCollide = false
-
-    -- Disable collisions for all other parts
     for _, part in pairs(Character:GetDescendants()) do
         if part:IsA("BasePart") then
             part.CanCollide = false
         end
     end
 
-    -- Set up BodyPosition to control vertical movement without flickering
-    local bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.MaxForce = Vector3.new(4000, 4000, 4000) -- Apply force to all directions
-    bodyPosition.D = 50 -- Damping to prevent flickering (lower to make more stable)
-    bodyPosition.P = 5000 -- Stiffness (higher for faster correction, lower for smoother)
-    bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Keep character slightly above the ground
-    bodyPosition.Parent = rootPart
+    -- Use BodyVelocity for movement control
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(5000, 5000, 5000) -- Allow enough force to move the character
+    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Initially set the velocity to zero
+    bodyVelocity.Parent = rootPart
 
-    -- Use BodyGyro to lock the orientation
+    -- Use BodyGyro to lock the orientation and prevent unwanted rotation
     local bodyGyro = Instance.new("BodyGyro")
-    bodyGyro.MaxTorque = Vector3.new(4000, 4000, 4000) -- High torque for stable rotation
+    bodyGyro.MaxTorque = Vector3.new(5000, 5000, 5000) -- High torque for stable rotation
     bodyGyro.CFrame = rootPart.CFrame
     bodyGyro.Parent = rootPart
 
-    -- Horizontal Movement with BodyVelocity
-    local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.MaxForce = Vector3.new(5000, 5000, 5000) -- Allow enough horizontal force
-    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Start with no velocity
-    bodyVelocity.Parent = rootPart
+    -- Apply gentle upward force only when necessary
+    local bodyPosition = Instance.new("BodyPosition")
+    bodyPosition.MaxForce = Vector3.new(5000, 5000, 5000) -- Apply force to all directions
+    bodyPosition.D = 50 -- Damping to prevent flickering (lower for more stable, higher for faster correction)
+    bodyPosition.P = 5000 -- Stiffness (higher for faster correction, lower for smoother)
+    bodyPosition.Position = rootPart.Position + Vector3.new(0, 5, 0) -- Keep character slightly above the ground
+    bodyPosition.Parent = rootPart
 
-    -- Set PlatformStand to avoid physics interaction
+    -- Set PlatformStand to avoid physics interaction (prevents falling)
     Character.Humanoid.PlatformStand = true
 
-    -- Apply controlled horizontal movement
+    -- Track the last position for horizontal movement
     local lastPosition = rootPart.Position
     RunService.RenderStepped:Connect(function(_, dt)
         if not Character then return end
 
         local currentPosition = rootPart.Position
 
-        -- Apply gentle upward force to keep the character from falling (only if needed)
-        if currentPosition.Y < 5 then -- If near the ground
-            bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Slight upward offset
+        -- Apply a gentle upward force only if the character is too close to the ground
+        if currentPosition.Y < 5 then
+            -- Slight upward force to keep the character above the ground
+            bodyPosition.Position = rootPart.Position + Vector3.new(0, 5, 0)
+        else
+            -- Reset upward force when not needed
+            bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0)
         end
 
-        -- Calculate and apply horizontal movement towards the target
+        -- Apply horizontal movement towards the target position
         if TargetPosition then
             local direction = (TargetPosition - currentPosition).Unit
             local horizontalVelocity = direction * Speed
-            bodyVelocity.Velocity = horizontalVelocity + Vector3.new(0, bodyVelocity.Velocity.Y, 0) -- Keep vertical velocity the same
-        end
-
-        -- Keep track of vertical stability (no unnecessary adjustments to Y unless falling)
-        if currentPosition.Y < 5 then
-            bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Lightly adjust vertical position
+            bodyVelocity.Velocity = horizontalVelocity + Vector3.new(0, bodyVelocity.Velocity.Y, 0)
         end
     end)
 end
