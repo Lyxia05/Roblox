@@ -30,7 +30,7 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local DungeonFolder = workspace.dungeon
 
 -- Script Settings
-local Speed = 50 -- Movement speed
+local Speed = 25 -- Movement speed
 local CURRENT_OBJECT = nil
 local LAST_UPDATE = os.clock()
 local TargetPosition = nil
