@@ -83,7 +83,7 @@ local function MoveToTarget(targetPosition)
 
         -- Update position with constant orientation
         rootPart.CFrame = CFrame.new(newPosition) * targetRotation
-        task.wait()
+        task.wait(0.01)
     end
 
     -- Snap to the final position and orientation
@@ -105,7 +105,7 @@ local function AutoFarming()
     end
 
     -- Calculate destination
-    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 3, 0)
+    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 10, 0)
 
     -- Move to target
     MoveToTarget(TargetPosition)
@@ -116,7 +116,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         AutoFarming()
-        task.wait()
+        task.wait(0.1) -- Adjust as needed
     end
 end)
 
@@ -125,7 +125,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
-        task.wait()
+        task.wait(0.1) -- Adjust attack delay as needed
     end
 end)
 
@@ -138,9 +138,7 @@ local function setupCharacter()
     local rootPart = Character:WaitForChild("HumanoidRootPart")
     
     -- Disable collisions for the HumanoidRootPart
-    if rootPart:FindFirstChild("PrimaryPart") then
-        rootPart.CanCollide = false
-    end
+    rootPart.CanCollide = false
 
     -- Disable collisions for all other parts
     for _, part in pairs(Character:GetDescendants()) do
@@ -171,14 +169,13 @@ end)
 RunService.RenderStepped:Connect(function()
     if Character and Character:FindFirstChild("Humanoid") then
         if _G.Enabled then
+            -- Prevent physics effects by disabling collisions
             Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
             Character.Humanoid.PlatformStand = true
 
             -- Disable collisions for the HumanoidRootPart
             local rootPart = Character.HumanoidRootPart
-            if rootPart:FindFirstChild("PrimaryPart") then
-                rootPart.CanCollide = false
-            end
+            rootPart.CanCollide = false
 
             -- Disable collisions for all other parts
             for _, part in pairs(Character:GetDescendants()) do
