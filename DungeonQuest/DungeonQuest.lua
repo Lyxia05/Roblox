@@ -105,7 +105,7 @@ local function AutoFarming()
     end
 
     -- Calculate destination
-    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 3, 0)
+    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8, 0)
 
     -- Move to target
     MoveToTarget(TargetPosition)
@@ -127,6 +127,44 @@ task.spawn(function()
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
         task.wait(0.1)
     end
+end)
+
+-- Prevent Falling and Bounce (By Disabling Collisions)
+local function setupCharacter()
+    if not Character then
+        return
+    end
+
+    local rootPart = Character:WaitForChild("HumanoidRootPart")
+    
+    -- Disable collisions for the HumanoidRootPart
+    if rootPart:FindFirstChild("PrimaryPart") then
+        rootPart.CanCollide = false
+    end
+
+    -- Disable collisions for all other parts
+    for _, part in pairs(Character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = false
+        end
+    end
+
+    -- Set up body position for floating
+    local bodyPosition = Instance.new("BodyPosition")
+    bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Float 10 studs above the current position
+    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+    bodyPosition.P = 3000 -- Adjust responsiveness
+    bodyPosition.D = 100 -- Damping for smooth movement
+    bodyPosition.Parent = rootPart
+
+    -- Set PlatformStand to avoid physics interaction
+    Character.Humanoid.PlatformStand = true
+end
+
+-- Handling Respawn
+LocalPlayer.CharacterAdded:Connect(function(newCharacter)
+    Character = newCharacter
+    setupCharacter() -- Re-setup when character respawns
 end)
 
 -- Prevent Falling and Bounce (By Disabling Collisions)
@@ -159,3 +197,6 @@ RunService.RenderStepped:Connect(function()
         end
     end
 end)
+
+-- Initial setup when the script starts
+setupCharacter()
