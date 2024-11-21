@@ -147,19 +147,42 @@ local function setupCharacter()
         end
     end
 
-    -- Set up body position for floating
-    local bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Float 10 studs above the current position
-    bodyPosition.MaxForce = Vector3.new(5000, 5000, 5000) -- Adjust MaxForce to allow control over all directions
-    bodyPosition.P = 1000 -- Reduce stiffness for smoother movement
-    bodyPosition.D = 50 -- Reduce damping for less resistance in movement
-    bodyPosition.Parent = rootPart
+    -- Set up BodyVelocity for controlled movement
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(5000, 5000, 5000) -- Allows enough force to move the character
+    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Initially set the velocity to zero
+    bodyVelocity.Parent = rootPart
 
-    -- Add BodyGyro to lock rotation
+    -- Set up a gentle upward force to prevent falling through the ground
     local bodyGyro = Instance.new("BodyGyro")
-    bodyGyro.MaxTorque = Vector3.new(4000, 4000, 4000) -- High enough to control rotation
+    bodyGyro.MaxTorque = Vector3.new(4000, 4000, 4000) -- Keep the rotation stable
     bodyGyro.CFrame = rootPart.CFrame -- Lock rotation to the current CFrame
     bodyGyro.Parent = rootPart
+
+    -- Use RunService to apply velocity continuously for smoother control
+    local lastPosition = rootPart.Position
+    RunService.RenderStepped:Connect(function(_, dt)
+        if not Character then return end
+
+        -- Applying a light upward velocity to counteract gravity (but not too strong)
+        local currentPosition = rootPart.Position
+        local distanceTraveled = (currentPosition - lastPosition).Magnitude
+        lastPosition = currentPosition
+
+        -- Apply gentle upward force based on the distance fallen or any large downward velocity
+        if currentPosition.Y < 5 then  -- If the character is too close to the ground
+            bodyVelocity.Velocity = Vector3.new(0, 20, 0) -- Small upward force to prevent falling
+        else
+            bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Otherwise, let the physics take over
+        end
+
+        -- Apply horizontal velocity if needed for smooth movement
+        if TargetPosition then
+            local direction = (TargetPosition - currentPosition).Unit
+            local horizontalVelocity = direction * Speed
+            bodyVelocity.Velocity = horizontalVelocity + Vector3.new(0, bodyVelocity.Velocity.Y, 0)
+        end
+    end)
 
     -- Set PlatformStand to avoid physics interaction
     Character.Humanoid.PlatformStand = true
