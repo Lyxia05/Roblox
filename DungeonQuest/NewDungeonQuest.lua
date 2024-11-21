@@ -87,9 +87,15 @@ local function AutoFarming()
     end
 
     local Distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
+    local MonsterSize = CURRENT_OBJECT.HumanoidRootPart.Size.Y
+    local Radius = 7
+
+    if MonsterSize >= 40 then
+        Radius = 30
+    end
 
     -- Move to target
-    Tween(Character.HumanoidRootPart, GetTime(Distance), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, 7, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))})
+    Tween(Character.HumanoidRootPart, GetTime(Distance), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, Radius, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))})
 end
 
 task.spawn(function()
