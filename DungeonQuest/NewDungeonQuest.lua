@@ -77,7 +77,10 @@ local function AutoFarming()
 
     -- If no valid target or current target is dead, find a new one
     if not CURRENT_OBJECT or not CURRENT_OBJECT:FindFirstChild("Humanoid") or CURRENT_OBJECT.Humanoid.Health <= 0 then
+        -- Find the closest valid monster
         CURRENT_OBJECT = getClosestMonster()
+
+        -- If no valid monster found, return
         if not CURRENT_OBJECT then
             return
         end
@@ -85,11 +88,9 @@ local function AutoFarming()
 
     local Distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
 
-    -- Move to target without excessive rotation
-    local targetCFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, 7, 0))
-    Tween(Character.HumanoidRootPart, GetTime(Distance), {CFrame = targetCFrame})
+    -- Move to target
+    Tween(Character.HumanoidRootPart, GetTime(Distance), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, 7, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))})
 end
-
 
 task.spawn(function()
     while true do
@@ -128,7 +129,7 @@ local function ensureBodyVelocity(rootPart)
         bodyVelocity.Name = "BodyVelocity1"
         bodyVelocity.Parent = rootPart
         bodyVelocity.MaxForce = Vector3.new(10000, 10000, 10000)
-        bodyVelocity.Velocity = Vector3.zero
+        bodyVelocity.Velocity = Vector3.new(0, 0, 0)
     end
 end
 
@@ -148,10 +149,8 @@ task.spawn(function()
             local rootPart = character.HumanoidRootPart
             local humanoid = character.Humanoid
 
-            -- Set PlatformStand to true only if not already true
-            if not humanoid.PlatformStand then
-                humanoid.PlatformStand = true
-            end
+            -- Set PlatformStand to true for the humanoid
+            humanoid.PlatformStand = true
 
             -- Ensure the humanoid is not sitting
             if humanoid.Sit then
@@ -163,10 +162,6 @@ task.spawn(function()
 
             -- Disable collisions for all character parts
             disableCollisions(character)
-
-            -- Prevent spinning by locking orientation (keep Y rotation stable)
-            local currentOrientation = rootPart.CFrame.Rotation
-            rootPart.CFrame = CFrame.new(rootPart.Position) * currentOrientation
         end
     end
 end)
