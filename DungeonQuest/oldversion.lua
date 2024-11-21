@@ -150,16 +150,10 @@ local function setupCharacter()
     -- Set up body position for floating
     local bodyPosition = Instance.new("BodyPosition")
     bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Float 10 studs above the current position
-    bodyPosition.MaxForce = Vector3.new(5000, 5000, 5000) -- Adjust MaxForce to allow control over all directions
-    bodyPosition.P = 1000 -- Reduce stiffness for smoother movement
-    bodyPosition.D = 50 -- Reduce damping for less resistance in movement
+    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+    bodyPosition.P = 3000 -- Adjust responsiveness
+    bodyPosition.D = 100 -- Damping for smooth movement
     bodyPosition.Parent = rootPart
-
-    -- Add BodyGyro to lock rotation
-    local bodyGyro = Instance.new("BodyGyro")
-    bodyGyro.MaxTorque = Vector3.new(4000, 4000, 4000) -- High enough to control rotation
-    bodyGyro.CFrame = rootPart.CFrame -- Lock rotation to the current CFrame
-    bodyGyro.Parent = rootPart
 
     -- Set PlatformStand to avoid physics interaction
     Character.Humanoid.PlatformStand = true
