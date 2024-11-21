@@ -159,9 +159,16 @@ end)
 RunService.RenderStepped:Connect(function()
     if Character and Character:FindFirstChild("Humanoid") then
         if _G.Enabled then
-            -- Prevent physics effects by disabling collisions
-            Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-            Character.Humanoid.PlatformStand = true
+            -- If no target is found, keep the character floating and prevent gravity
+            if not CURRENT_OBJECT then
+                -- Ensure character stays in place by setting velocity to zero
+                Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                Character.HumanoidRootPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+            else
+                -- Prevent physics effects by disabling collisions while moving
+                Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+                Character.Humanoid.PlatformStand = true
+            end
 
             -- Disable collisions for all parts
             for _, part in pairs(Character:GetDescendants()) do
