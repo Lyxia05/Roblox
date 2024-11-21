@@ -181,7 +181,7 @@ local function setupCharacter()
         -- Apply horizontal movement towards the target
         if TargetPosition then
             local direction = (TargetPosition - currentPosition).Unit
-            local horizontalVelocity = direction * Speed
+            local horizontalVelocity = direction * (Speed / 2)  -- Reduced speed by dividing by 2
             bodyVelocity.Velocity = horizontalVelocity + Vector3.new(0, bodyVelocity.Velocity.Y, 0)
         end
     end)
