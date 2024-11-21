@@ -137,54 +137,26 @@ local function setupCharacter()
 
     local rootPart = Character:WaitForChild("HumanoidRootPart")
     
-    -- Disable collisions for the HumanoidRootPart and all parts of the character
+    -- Disable collisions for the HumanoidRootPart
     rootPart.CanCollide = false
+
+    -- Disable collisions for all other parts
     for _, part in pairs(Character:GetDescendants()) do
         if part:IsA("BasePart") then
             part.CanCollide = false
         end
     end
 
-    -- Use BodyVelocity for movement control (no need for BodyPosition or BodyGyro)
-    local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.MaxForce = Vector3.new(5000, 5000, 5000) -- Apply enough force for movement
-    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Start with no velocity
-    bodyVelocity.Parent = rootPart
-
-    -- Apply controlled upward force only when necessary
+    -- Set up body position for floating
     local bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.MaxForce = Vector3.new(5000, 5000, 5000) -- Apply force to all directions
-    bodyPosition.D = 10 -- Lower damping to smooth out movement but prevent flickering
-    bodyPosition.P = 5000 -- Stiffness
-    bodyPosition.Position = rootPart.Position + Vector3.new(0, 5, 0) -- Keep character slightly above the ground
+    bodyPosition.Position = rootPart.Position + Vector3.new(0, 5, 0) -- Float 10 studs above the current position
+    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
+    bodyPosition.P = 3000 -- Adjust responsiveness
+    bodyPosition.D = 100 -- Damping for smooth movement
     bodyPosition.Parent = rootPart
 
-    -- Set PlatformStand to avoid physics interaction (prevents falling)
+    -- Set PlatformStand to avoid physics interaction
     Character.Humanoid.PlatformStand = true
-
-    -- Track horizontal movement
-    local lastPosition = rootPart.Position
-    RunService.RenderStepped:Connect(function(_, dt)
-        if not Character then return end
-
-        local currentPosition = rootPart.Position
-
-        -- Prevent the character from falling or flickering when near the ground
-        if currentPosition.Y < 5 then
-            -- Only apply a gentle upward force if near the ground
-            bodyPosition.Position = rootPart.Position + Vector3.new(0, 5, 0)
-        else
-            -- Reset upward force when no longer needed
-            bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0)
-        end
-
-        -- Apply horizontal movement towards the target
-        if TargetPosition then
-            local direction = (TargetPosition - currentPosition).Unit
-            local horizontalVelocity = direction * (Speed / 2)  -- Reduced speed by dividing by 2
-            bodyVelocity.Velocity = horizontalVelocity + Vector3.new(0, bodyVelocity.Velocity.Y, 0)
-        end
-    end)
 end
 
 -- Handling Respawn
