@@ -24,174 +24,138 @@ local TweenService = game:GetService("TweenService")
 local PlayerService = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
---
+-- Local Variables
 local LocalPlayer = PlayerService.LocalPlayer
 local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-
---
 local DungeonFolder = workspace.dungeon
 
---
-local Speed = 50
+-- Script Settings
+local Speed = 50 -- Movement speed
 local CURRENT_OBJECT = nil
-local DELAY = false
-local SAVED_CF = nil
-local ClipEnabled = false
-local SAVED_TWEEN = nil
 local LAST_UPDATE = os.clock()
+local TargetPosition = nil
 
---
-local bodyPosition = Instance.new("BodyPosition")
-bodyPosition.Position = Character.HumanoidRootPart.Position
-bodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge) -- Allow only upward force
-bodyPosition.P = 3000 -- Adjust responsiveness
-bodyPosition.D = 100 -- Damping for smooth movement
-bodyPosition.Parent = Character.HumanoidRootPart
-
---
-local function Tween(object, time, properties)
-    local NewTweenInfoTable = TweenInfo.new(
-        time, -- Time
-        Enum.EasingStyle.Linear,
-        Enum.EasingDirection.Out, 
-        0, -- RepeatCount (-1 = Infinite)
-        false, -- Reverse tween after finishing
-        0 -- DelayTime
-    )
-
-    local tween = TweenService:Create(object, NewTweenInfoTable, properties)
-    tween:Play()
-
-    return tween
-end
-
-local function GetTime(Distance, Speed)
-	-- Time = Distance / Speed
-	local Time = Distance / Speed
-	return Time
-end
-
+-- Function: Get Closest Monster
 local function getClosestMonster()
-    if Character == nil then
+    if not Character or not Character:FindFirstChild("HumanoidRootPart") then
         return nil
     end
 
-    if not Character:FindFirstChild("HumanoidRootPart") then
-        return nil
-    end
+    local closest = {Monster = nil, Magnitude = math.huge}
+    local playerPosition = Character.HumanoidRootPart.Position
 
-    local closest = {Monster = nil, Magnitude = 0, Size = 0}
-    local playerPosition = Character:WaitForChild("HumanoidRootPart").Position
-
-    for index, value in pairs(DungeonFolder:GetChildren()) do
-        if value:IsA("Folder") then
-
-            if Status == true then
-                break
-            end
-
-            if value:FindFirstChild("enemyFolder") then
-                for index, value2 in pairs(value.enemyFolder:GetChildren()) do
-
-                    if value2:IsA("Model") and value2:FindFirstChild("HumanoidRootPart") and value2.Humanoid.Health > 0 then
-    
-                        local targetPosition = value2.HumanoidRootPart.Position
-                        local magnitude = (targetPosition - playerPosition).Magnitude
-    
-                        if magnitude < closest.Magnitude or closest.Magnitude == 0 then
-                            closest["Monster"] = value2
-                            closest["Magnitude"] = magnitude
-                        end
-    
+    for _, folder in ipairs(DungeonFolder:GetChildren()) do
+        if folder:IsA("Folder") and folder:FindFirstChild("enemyFolder") then
+            for _, enemy in ipairs(folder.enemyFolder:GetChildren()) do
+                if enemy:IsA("Model") and enemy:FindFirstChild("HumanoidRootPart") and enemy.Humanoid.Health > 0 then
+                    local magnitude = (enemy.HumanoidRootPart.Position - playerPosition).Magnitude
+                    if magnitude < closest.Magnitude then
+                        closest = {Monster = enemy, Magnitude = magnitude}
                     end
-    
                 end
             end
-
         end
     end
 
     return closest.Monster
 end
 
-local function AutoFarming()
-    if Character == nil then
-        return
-    end
-
+-- Function: Smooth Movement Without Physics
+local function MoveToTarget(targetPosition)
     if not Character:FindFirstChild("HumanoidRootPart") then
         return
     end
 
-    if os.clock() - LAST_UPDATE >= 10 then
-        LAST_UPDATE = os.clock()
-        ClipEnabled = false
-        CURRENT_OBJECT = getClosestMonster()
-        return
+    -- Interpolate smoothly to the target position
+    local rootPart = Character.HumanoidRootPart
+    local distance = (rootPart.Position - targetPosition).Magnitude
+    local travelTime = distance / Speed
+    local startTime = os.clock()
+
+    -- Define the target orientation
+    local targetRotation = CFrame.Angles(math.rad(-90), 0, math.rad(90))
+
+    -- Update position and orientation frame-by-frame
+    while os.clock() - startTime < travelTime and _G.Enabled do
+        local elapsed = os.clock() - startTime
+        local alpha = math.clamp(elapsed / travelTime, 0, 1)
+        local newPosition = rootPart.Position:Lerp(targetPosition, alpha)
+
+        -- Update position with constant orientation
+        rootPart.CFrame = CFrame.new(newPosition) * targetRotation
+        task.wait()
     end
 
-    if CURRENT_OBJECT == nil then
-        LAST_UPDATE = os.clock()
-        ClipEnabled = false
-        CURRENT_OBJECT = getClosestMonster()
-        return
+    -- Snap to the final position and orientation
+    if _G.Enabled then
+        rootPart.CFrame = CFrame.new(targetPosition) * targetRotation
     end
-
-    if CURRENT_OBJECT ~= nil and CURRENT_OBJECT:FindFirstChild("Humanoid") and CURRENT_OBJECT.Humanoid.Health <= 0 then
-        LAST_UPDATE = os.clock()
-        ClipEnabled = false
-        CURRENT_OBJECT = getClosestMonster()
-        return
-    end
-
-    Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFame * CFrame.Angles(math.rad(-90), 0, math.rad(90))
-    Character.HumanoidRootPart["BodyPosition"].Position = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 3, 0)
 end
 
-game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
+-- Function: AutoFarming Logic
+local function AutoFarming()
+    if not Character or not Character:FindFirstChild("HumanoidRootPart") then
+        return
+    end
 
+    -- If no valid target or current target is dead, find a new one
+    if not CURRENT_OBJECT or not CURRENT_OBJECT:FindFirstChild("Humanoid") or CURRENT_OBJECT.Humanoid.Health <= 0 then
+        CURRENT_OBJECT = getClosestMonster()
+        return
+    end
+
+    -- Calculate destination
+    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 3, 0)
+
+    -- Move to target
+    MoveToTarget(TargetPosition)
+end
+
+-- Farming Loop
 task.spawn(function()
     while true do
-        if _G.Enabled == false then
-            break
-        end
+        if not _G.Enabled then break end
         AutoFarming()
-        task.wait()
+        task.wait(0.1)
     end
 end)
 
+-- Attack Loop
 task.spawn(function()
     while true do
-        if _G.Enabled == false then
-            break
-        end
+        if not _G.Enabled then break end
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
-        task.wait()
+        task.wait(0.1)
     end
 end)
 
-LocalPlayer.CharacterAdded:Connect(function()
-    Character = LocalPlayer.Character
-
-    local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
-
-    bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.Position = HumanoidRootPart.Position + Vector3.new(0, 1000, 0) -- Float 10 studs above the current position
-    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
-    bodyPosition.P = 3000 -- Adjust responsiveness
-    bodyPosition.D = 100 -- Damping for smooth movement
-    bodyPosition.Parent = HumanoidRootPart
-end)
-
+-- Prevent Falling and Bounce (By Disabling Collisions)
 RunService.RenderStepped:Connect(function()
-    if not Character then
-        return
-    end
+    if Character and Character:FindFirstChild("Humanoid") then
+        if _G.Enabled then
+            Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+            Character.Humanoid.PlatformStand = true
 
-    if not Character:FindFirstChild("Humanoid") then
-        return
-    end
+            -- Disable collisions for the HumanoidRootPart
+            local rootPart = Character.HumanoidRootPart
+            if rootPart:FindFirstChild("PrimaryPart") then
+                rootPart.CanCollide = false
+            end
 
-    Character.Humanoid:ChangeState(16)
-    Character.Humanoid.PlatformStand = true
+            -- Disable collisions for all other parts
+            for _, part in pairs(Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
+        else
+            -- Enable collisions when not moving
+            Character.Humanoid.PlatformStand = false
+            for _, part in pairs(Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true
+                end
+            end
+        end
+    end
 end)
