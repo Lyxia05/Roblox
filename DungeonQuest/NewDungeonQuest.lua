@@ -109,7 +109,7 @@ end)
 
 -- AUTO SKILL SECTION --
 task.spawn(function()
-    local args = {{{["\t"] = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rejuvenating Spray")},"U"}}
+    local args = {{{["\t"] = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rejuvenating Spray")},"J"}}
     while true do
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(args))
         task.wait(2)
