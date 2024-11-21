@@ -164,19 +164,18 @@ local function setupCharacter()
     RunService.RenderStepped:Connect(function(_, dt)
         if not Character then return end
 
-        -- Applying a light upward velocity to counteract gravity (but not too strong)
         local currentPosition = rootPart.Position
         local distanceTraveled = (currentPosition - lastPosition).Magnitude
         lastPosition = currentPosition
 
-        -- Apply gentle upward force based on the distance fallen or any large downward velocity
-        if currentPosition.Y < 5 then  -- If the character is too close to the ground
-            bodyVelocity.Velocity = Vector3.new(0, 20, 0) -- Small upward force to prevent falling
+        -- Apply a light upward velocity only if falling (Y component of velocity)
+        if currentPosition.Y < 5 then  -- If the character is close to the ground
+            bodyVelocity.Velocity = Vector3.new(0, 10, 0)  -- Apply light upward force
         else
-            bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Otherwise, let the physics take over
+            bodyVelocity.Velocity = Vector3.new(0, bodyVelocity.Velocity.Y, 0) -- Keep current Y velocity
         end
 
-        -- Apply horizontal velocity if needed for smooth movement
+        -- Apply horizontal velocity based on the target position
         if TargetPosition then
             local direction = (TargetPosition - currentPosition).Unit
             local horizontalVelocity = direction * Speed
