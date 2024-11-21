@@ -60,22 +60,21 @@ local function getClosestMonster()
     return closest.Monster
 end
 
--- Function: Smooth Movement Without Physics
+-- Function: Move to Target Without Physics (Smooth Movement)
 local function MoveToTarget(targetPosition)
     if not Character or not Character:FindFirstChild("HumanoidRootPart") then
         return
     end
 
-    -- Interpolate smoothly to the target position
     local rootPart = Character.HumanoidRootPart
     local distance = (rootPart.Position - targetPosition).Magnitude
     local travelTime = distance / Speed
     local startTime = os.clock()
 
-    -- Define the target orientation
+    -- Define the constant orientation
     local targetRotation = CFrame.Angles(math.rad(-90), 0, math.rad(90))
 
-    -- Update position and orientation frame-by-frame
+    -- Move smoothly while updating the CFrame
     while os.clock() - startTime < travelTime and _G.Enabled do
         local elapsed = os.clock() - startTime
         local alpha = math.clamp(elapsed / travelTime, 0, 1)
@@ -83,7 +82,7 @@ local function MoveToTarget(targetPosition)
 
         -- Update position with constant orientation
         rootPart.CFrame = CFrame.new(newPosition) * targetRotation
-        task.wait(0.01)
+        task.wait(0.01)  -- Fine-tune to control frame rate if needed
     end
 
     -- Snap to the final position and orientation
@@ -105,7 +104,7 @@ local function AutoFarming()
     end
 
     -- Calculate destination
-    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0)
+    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 7, 0)
 
     -- Move to target
     MoveToTarget(TargetPosition)
@@ -116,7 +115,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         AutoFarming()
-        task.wait(0.1) -- Adjust as needed
+        task.wait(0.1)
     end
 end)
 
@@ -125,11 +124,11 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
-        task.wait() -- Adjust attack delay as needed
+        task.wait()
     end
 end)
 
--- Prevent Falling and Bounce (By Disabling Collisions)
+-- Prevent Falling and Bounce (By Disabling Collisions and Gravity)
 local function setupCharacter()
     if not Character then
         return
@@ -137,19 +136,16 @@ local function setupCharacter()
 
     local rootPart = Character:WaitForChild("HumanoidRootPart")
 
-    -- Disable collisions for the HumanoidRootPart
-    rootPart.CanCollide = false
-
-    -- Disable collisions for all other parts
+    -- Disable collisions for the HumanoidRootPart and all parts
     for _, part in pairs(Character:GetDescendants()) do
         if part:IsA("BasePart") then
             part.CanCollide = false
         end
     end
 
-    -- Disable gravity and velocity
-    Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0) -- Stop unwanted velocities
-    Character.HumanoidRootPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0) -- Stop angular movements
+    -- Disable gravity and velocity to stop unwanted movement
+    Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+    Character.HumanoidRootPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
     Character.Humanoid.PlatformStand = true
 end
 
@@ -159,7 +155,7 @@ LocalPlayer.CharacterAdded:Connect(function(newCharacter)
     setupCharacter() -- Re-setup when character respawns
 end)
 
--- Prevent Falling and Bounce (By Disabling Collisions)
+-- RunService to continuously disable collisions and gravity during movement
 RunService.RenderStepped:Connect(function()
     if Character and Character:FindFirstChild("Humanoid") then
         if _G.Enabled then
@@ -167,11 +163,7 @@ RunService.RenderStepped:Connect(function()
             Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
             Character.Humanoid.PlatformStand = true
 
-            -- Disable collisions for the HumanoidRootPart
-            local rootPart = Character.HumanoidRootPart
-            rootPart.CanCollide = false
-
-            -- Disable collisions for all other parts
+            -- Disable collisions for all parts
             for _, part in pairs(Character:GetDescendants()) do
                 if part:IsA("BasePart") then
                     part.CanCollide = false
