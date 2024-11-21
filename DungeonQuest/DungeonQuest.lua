@@ -116,7 +116,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         AutoFarming()
-        task.wait(0.1) -- Adjust as needed
+        task.wait() -- Adjust as needed
     end
 end)
 
