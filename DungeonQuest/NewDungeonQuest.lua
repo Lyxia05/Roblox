@@ -11,7 +11,7 @@ local LocalPlayer = Players.LocalPlayer
 local DungeonFolder = workspace.dungeon
 
 --
-local Speed = 80
+local Speed = 50
 local CURRENT_OBJECT = nil
 
 ----- AUTO FARM SECTION -----
