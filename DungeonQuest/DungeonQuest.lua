@@ -147,44 +147,53 @@ local function setupCharacter()
         end
     end
 
-    -- Set up BodyVelocity for controlled movement
-    local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.MaxForce = Vector3.new(5000, 5000, 5000) -- Allows enough force to move the character
-    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Initially set the velocity to zero
-    bodyVelocity.Parent = rootPart
+    -- Set up BodyPosition to control vertical movement without flickering
+    local bodyPosition = Instance.new("BodyPosition")
+    bodyPosition.MaxForce = Vector3.new(4000, 4000, 4000) -- Apply force to all directions
+    bodyPosition.D = 50 -- Damping to prevent flickering (lower to make more stable)
+    bodyPosition.P = 5000 -- Stiffness (higher for faster correction, lower for smoother)
+    bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Keep character slightly above the ground
+    bodyPosition.Parent = rootPart
 
-    -- Set up a gentle upward force to prevent falling through the ground
+    -- Use BodyGyro to lock the orientation
     local bodyGyro = Instance.new("BodyGyro")
-    bodyGyro.MaxTorque = Vector3.new(4000, 4000, 4000) -- Keep the rotation stable
-    bodyGyro.CFrame = rootPart.CFrame -- Lock rotation to the current CFrame
+    bodyGyro.MaxTorque = Vector3.new(4000, 4000, 4000) -- High torque for stable rotation
+    bodyGyro.CFrame = rootPart.CFrame
     bodyGyro.Parent = rootPart
 
-    -- Use RunService to apply velocity continuously for smoother control
+    -- Horizontal Movement with BodyVelocity
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(5000, 5000, 5000) -- Allow enough horizontal force
+    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Start with no velocity
+    bodyVelocity.Parent = rootPart
+
+    -- Set PlatformStand to avoid physics interaction
+    Character.Humanoid.PlatformStand = true
+
+    -- Apply controlled horizontal movement
     local lastPosition = rootPart.Position
     RunService.RenderStepped:Connect(function(_, dt)
         if not Character then return end
 
         local currentPosition = rootPart.Position
-        local distanceTraveled = (currentPosition - lastPosition).Magnitude
-        lastPosition = currentPosition
 
-        -- Apply a light upward velocity only if falling (Y component of velocity)
-        if currentPosition.Y < 5 then  -- If the character is close to the ground
-            bodyVelocity.Velocity = Vector3.new(0, 10, 0)  -- Apply light upward force
-        else
-            bodyVelocity.Velocity = Vector3.new(0, bodyVelocity.Velocity.Y, 0) -- Keep current Y velocity
+        -- Apply gentle upward force to keep the character from falling (only if needed)
+        if currentPosition.Y < 5 then -- If near the ground
+            bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Slight upward offset
         end
 
-        -- Apply horizontal velocity based on the target position
+        -- Calculate and apply horizontal movement towards the target
         if TargetPosition then
             local direction = (TargetPosition - currentPosition).Unit
             local horizontalVelocity = direction * Speed
-            bodyVelocity.Velocity = horizontalVelocity + Vector3.new(0, bodyVelocity.Velocity.Y, 0)
+            bodyVelocity.Velocity = horizontalVelocity + Vector3.new(0, bodyVelocity.Velocity.Y, 0) -- Keep vertical velocity the same
+        end
+
+        -- Keep track of vertical stability (no unnecessary adjustments to Y unless falling)
+        if currentPosition.Y < 5 then
+            bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Lightly adjust vertical position
         end
     end)
-
-    -- Set PlatformStand to avoid physics interaction
-    Character.Humanoid.PlatformStand = true
 end
 
 -- Handling Respawn
