@@ -105,7 +105,7 @@ local function AutoFarming()
     end
 
     -- Calculate destination
-    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8, 0)
+    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 7, 0)
 
     -- Move to target
     MoveToTarget(TargetPosition)
@@ -116,7 +116,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         AutoFarming()
-        task.wait() -- Adjust as needed
+        task.wait(0.1) -- Adjust as needed
     end
 end)
 
@@ -125,7 +125,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
-        task.wait(0.1) -- Adjust attack delay as needed
+        task.wait() -- Adjust attack delay as needed
     end
 end)
 
@@ -151,11 +151,13 @@ local function setupCharacter()
     local bodyPosition = Instance.new("BodyPosition")
     bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Float 10 studs above the current position
     bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
-    bodyPosition.P = 3000 -- Adjust responsiveness
+    bodyPosition.P = 1000 -- Adjust responsiveness to avoid bouncing
     bodyPosition.D = 100 -- Damping for smooth movement
     bodyPosition.Parent = rootPart
 
-    -- Set PlatformStand to avoid physics interaction
+    -- Disable gravity
+    Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0) -- Stop unwanted velocities
+    Character.HumanoidRootPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0) -- Stop angular movements
     Character.Humanoid.PlatformStand = true
 end
 
