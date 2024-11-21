@@ -1,3 +1,11 @@
+if game.PlaceId == 2414851778 then
+    return
+end
+
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
 --
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
