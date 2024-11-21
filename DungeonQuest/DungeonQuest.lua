@@ -62,7 +62,7 @@ end
 
 -- Function: Smooth Movement Without Physics
 local function MoveToTarget(targetPosition)
-    if not Character:FindFirstChild("HumanoidRootPart") then
+    if not Character or not Character:FindFirstChild("HumanoidRootPart") then
         return
     end
 
@@ -105,7 +105,7 @@ local function AutoFarming()
     end
 
     -- Calculate destination
-    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 8, 0)
+    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 3, 0)
 
     -- Move to target
     MoveToTarget(TargetPosition)
@@ -116,7 +116,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         AutoFarming()
-        task.wait(0.1)
+        task.wait()
     end
 end)
 
@@ -125,7 +125,7 @@ task.spawn(function()
     while true do
         if not _G.Enabled then break end
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
-        task.wait(0.1)
+        task.wait()
     end
 end)
 
