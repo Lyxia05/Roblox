@@ -91,7 +91,9 @@ local function AutoFarming()
     local Radius = 7
 
     if MonsterSize >= 50 then
-        Radius = MonsterSize
+        Radius = MonsterSize - 10
+    elseif MonsterSize >= 150 then
+        Radius = MonsterSize / 2
     end
 
     -- Move to target
