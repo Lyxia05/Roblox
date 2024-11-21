@@ -105,7 +105,7 @@ local function AutoFarming()
     end
 
     -- Calculate destination
-    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 7, 0)
+    TargetPosition = CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, CURRENT_OBJECT.HumanoidRootPart.Size.Y + 5, 0)
 
     -- Move to target
     MoveToTarget(TargetPosition)
@@ -147,13 +147,15 @@ local function setupCharacter()
         end
     end
 
-    -- Set up body position for floating
+    -- Set up body position for floating (ONLY modifying Y axis)
     local bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Float 10 studs above the current position
-    bodyPosition.MaxForce = Vector3.new(0, math.huge, 0) -- Allow only upward force
-    bodyPosition.P = 1000 -- Adjust responsiveness to avoid bouncing
-    bodyPosition.D = 100 -- Damping for smooth movement
+    bodyPosition.MaxForce = Vector3.new(4000, math.huge, 4000) -- Allow only vertical movement
+    bodyPosition.P = 3000 -- Adjust responsiveness to avoid bouncing
+    bodyPosition.D = 200 -- Damping for smooth movement
     bodyPosition.Parent = rootPart
+
+    -- Set the position with only vertical offset
+    bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Float 10 studs above the current position
 
     -- Disable gravity
     Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0) -- Stop unwanted velocities
