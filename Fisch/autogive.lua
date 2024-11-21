@@ -1,4 +1,5 @@
-_G.Username = "PempekPalembang1351"
+_G.Username = "kanamoru"
+_G.Enabled = false
 
 local function GiveAllToolsToUser()
     for index, value in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -12,9 +13,10 @@ local function GiveAllToolsToUser()
 end
 
 task.spawn(function()
-    while wait(1) do
+    while _G.Enabled do
         if game.Players.LocalPlayer.leaderstats.Level.Value > 0 and game.Players.LocalPlayer.DoneLoading.Value == true and game.Players.LocalPlayer.assetsloaded.Value == true then
             GiveAllToolsToUser()
         end
+        task.wait(1)
     end
 end)
