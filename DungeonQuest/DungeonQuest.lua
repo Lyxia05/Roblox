@@ -136,7 +136,7 @@ local function setupCharacter()
     end
 
     local rootPart = Character:WaitForChild("HumanoidRootPart")
-    
+
     -- Disable collisions for the HumanoidRootPart
     rootPart.CanCollide = false
 
@@ -147,17 +147,7 @@ local function setupCharacter()
         end
     end
 
-    -- Set up body position for floating (ONLY modifying Y axis)
-    local bodyPosition = Instance.new("BodyPosition")
-    bodyPosition.MaxForce = Vector3.new(4000, math.huge, 4000) -- Allow only vertical movement
-    bodyPosition.P = 3000 -- Adjust responsiveness to avoid bouncing
-    bodyPosition.D = 200 -- Damping for smooth movement
-    bodyPosition.Parent = rootPart
-
-    -- Set the position with only vertical offset
-    bodyPosition.Position = rootPart.Position + Vector3.new(0, 10, 0) -- Float 10 studs above the current position
-
-    -- Disable gravity
+    -- Disable gravity and velocity
     Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0) -- Stop unwanted velocities
     Character.HumanoidRootPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0) -- Stop angular movements
     Character.Humanoid.PlatformStand = true
