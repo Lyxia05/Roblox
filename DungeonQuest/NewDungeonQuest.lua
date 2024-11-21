@@ -90,8 +90,8 @@ local function AutoFarming()
     local MonsterSize = CURRENT_OBJECT.HumanoidRootPart.Size.Y
     local Radius = 7
 
-    if MonsterSize >= 40 then
-        Radius = 30
+    if MonsterSize >= 20 then
+        Radius = 50
     end
 
     -- Move to target
