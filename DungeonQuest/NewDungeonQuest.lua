@@ -88,7 +88,7 @@ local function AutoFarming()
 
     local Distance = (CURRENT_OBJECT:GetPivot().Position - Character.HumanoidRootPart.Position).Magnitude
     local MonsterSize = CURRENT_OBJECT.HumanoidRootPart.Size.Y
-    local Radius = 7
+    local Radius = 5
 
     if MonsterSize >= 50 and MonsterSize < 150 then
         Radius = MonsterSize - 30
