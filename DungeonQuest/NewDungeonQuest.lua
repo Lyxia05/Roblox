@@ -113,8 +113,8 @@ game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 -- KILL AURA SECTION --
 task.spawn(function()
     local animationLength = 1
-    local KILLAURA_ARGS = {{{["animationLength"] = animationLength,["sentAt"] = 1732316457.735706},"\151"}}
     while true do
+        local KILLAURA_ARGS = {{{["animationLength"] = animationLength,["sentAt"] = 1732316457.735706},"\151"}}
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
         animationLength += 1
 
