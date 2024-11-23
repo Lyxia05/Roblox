@@ -8,6 +8,7 @@
     "robloxLsp.diagnostics.globals": [
         "getrawmetatable",
         "setreadonly",
-        "getnamecallmethod"
+        "getnamecallmethod",
+        "getgenv"
     ]
 }
