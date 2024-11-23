@@ -96,8 +96,9 @@ local function AutoFarming()
         Radius = 30
     end
 
-    -- Move to target
-    CURRENT_OBJECT.Humanoid.Health = 0
+    -- Move to target without excessive rotation
+    local targetCFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, Radius, 0))
+    Tween(Character.HumanoidRootPart, GetTime(Distance), {CFrame = targetCFrame})
 end
 
 task.spawn(function()
@@ -212,7 +213,6 @@ task.spawn(function()
 
             -- Set PlatformStand to true for the humanoid
             humanoid.PlatformStand = true
-            humanoid:ChangeState(14)
 
             -- Ensure the humanoid is not sitting
             if humanoid.Sit then
