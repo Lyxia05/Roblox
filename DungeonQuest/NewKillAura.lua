@@ -57,7 +57,7 @@ local function UpdateAnimationByIndex(index)
 end
 
 local function GetKillAuraArgs(index)
-    return {[1] = {{ ["animationIndex"] = index, ["sentAt"] = os.time() + (os.clock() % 1) }, "\162"}}
+    return {[1] = {{ ["animationIndex"] = index, ["sentAt"] = os.time() + (os.clock() % 1) }, "\151"}}
 end
 
 local function CreateAnimation()
