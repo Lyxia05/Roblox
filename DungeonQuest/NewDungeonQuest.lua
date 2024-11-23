@@ -1,3 +1,8 @@
+----- SETTINGS -----
+getgenv().AutoRetry = true
+
+
+
 if game.PlaceId == 2414851778 then
     return
 end
@@ -113,6 +118,19 @@ game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
 -- Kill Aura
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/NewKillAura.lua"))()
+
+-- Auto Retry
+task.spawn(function()
+    while getgenv().AutoRetry do
+        local dungeonProgress = workspace:FindFirstChild("dungeonProgress")
+        if dungeonProgress and dungeonProgress.Value == "bossKilled" then
+            local args = {[1] = {[1] = {["\3"] = "vote",["vote"] = true},[2] = "."}}
+            game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(args))
+        end
+        workspace.dungeonProgress.Value = "bossKilled"
+        task.wait(2)
+    end
+end)
 
 ----- NO CLIP SECTION -----
 -- Function to ensure no duplicate BodyVelocity instances

@@ -13,3 +13,6 @@ for index, value in pairs(game.Players.LocalPlayer.PlayerGui:GetDescendants()) d
         value.Text = "999999"
     end
 end
+
+
+workspace.dungeonProgress.Value = "bossKilled"
