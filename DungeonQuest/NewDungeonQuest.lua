@@ -112,7 +112,7 @@ game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
 -- KILL AURA SECTION --
 task.spawn(function()
-    local animationLength = 1
+    local animationLength = 2
     while true do
         local KILLAURA_ARGS = {{{["animationLength"] = animationLength,["sentAt"] = 1732316457.735706},"\151"}}
         game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
@@ -129,7 +129,7 @@ end)
 task.spawn(function()
     local args = {{{["\t"] = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rejuvenating Spray")},"J"}}
     while true do
-        --game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(args))
         task.wait(2)
     end
 end)
@@ -173,10 +173,10 @@ task.spawn(function()
             end
 
             -- Add BodyVelocity if it doesn't already exist
-            -- ensureBodyVelocity(rootPart)
+            ensureBodyVelocity(rootPart)
 
             -- Disable collisions for all character parts
-            --disableCollisions(character)
+            disableCollisions(character)
         end
     end
 end)
