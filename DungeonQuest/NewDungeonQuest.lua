@@ -176,7 +176,7 @@ task.spawn(function()
             -- ensureBodyVelocity(rootPart)
 
             -- Disable collisions for all character parts
-            disableCollisions(character)
+            --disableCollisions(character)
         end
     end
 end)
