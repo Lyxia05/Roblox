@@ -1,6 +1,6 @@
 ----- SETTINGS -----
 getgenv().AutoRetry = true
-getgenv().Enabled = false
+getgenv().Enabled = true
 
 if not game:IsLoaded() then
     game.IsLoaded:Wait()
