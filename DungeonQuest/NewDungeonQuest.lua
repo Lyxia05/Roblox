@@ -1,5 +1,6 @@
 ----- SETTINGS -----
 getgenv().AutoRetry = true
+getgenv().Enabled = false
 
 if not game:IsLoaded() then
     game.IsLoaded:Wait()
@@ -120,6 +121,14 @@ game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
 -- Kill Aura
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/NewKillAura.lua"))()
+
+task.spawn(function()
+    while getgenv().Enabled do
+        game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Infernal Strike").spellEvent:FireServer("2b3176f5-0c60-4365-a328-938352169783")
+        game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rending Slice").spellEvent:FireServer("dd07de01-99d3-4940-a4b4-e86c59e3eb33")
+        task.wait(1)
+    end
+end)
 
 -- Auto Retry
 task.spawn(function()
