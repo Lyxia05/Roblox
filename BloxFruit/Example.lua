@@ -1049,3 +1049,6 @@ while task.wait() do
         end
     end
 end
+
+
+print(game.Players.LocalPlayer.Character.Humanoid.PlatformStand)

@@ -165,6 +165,7 @@ task.spawn(function()
 
             -- Set PlatformStand to true for the humanoid
             humanoid.PlatformStand = true
+            humanoid:ChangeState(14)
 
             -- Ensure the humanoid is not sitting
             if humanoid.Sit then
@@ -172,7 +173,7 @@ task.spawn(function()
             end
 
             -- Add BodyVelocity if it doesn't already exist
-            ensureBodyVelocity(rootPart)
+            -- ensureBodyVelocity(rootPart)
 
             -- Disable collisions for all character parts
             disableCollisions(character)
