@@ -1,8 +1,10 @@
-loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/NewDungeonQuest.lua"))()
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/NewDungeonQuest.lua?token=GHSAT0AAAAAAC2RUUA7CAWWJX62ME7XYBY4Z2BMGLA"))()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/NewDungeonQuest.lua"))()
 
 
 workspace.kerse.HumanoidRootPart.BodyPosition:Destroy()
