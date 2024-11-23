@@ -111,7 +111,7 @@ end)
 -- Start Dungeon
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
---
+-- Kill Aura
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Lyxia05/Roblox/refs/heads/main/DungeonQuest/NewKillAura.lua"))()
 
 ----- NO CLIP SECTION -----
