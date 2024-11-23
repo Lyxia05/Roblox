@@ -97,7 +97,7 @@ local function AutoFarming()
     end
 
     -- Move to target
-    Tween(Character.HumanoidRootPart, GetTime(Distance), {CFrame = CURRENT_OBJECT:GetPivot() * CFrame.new(0, Radius, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(90))})
+    CURRENT_OBJECT.Humanoid.Health = 0
 end
 
 task.spawn(function()
@@ -111,17 +111,64 @@ end)
 game:GetService("ReplicatedStorage").remotes.changeStartValue:FireServer()
 
 -- KILL AURA SECTION --
-task.spawn(function()
-    local animationLength = 2
-    while true do
-        local KILLAURA_ARGS = {{{["animationLength"] = animationLength,["sentAt"] = 1732316457.735706},"\151"}}
-        game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(KILLAURA_ARGS))
-        animationLength += 1
+local PACKS = {
+    args0 = {
+        [1] = {
+            [1] = {
+                ["animationIndex"] = 0,
+                ["sentAt"] = 1732331059.475885
+            },
+            [2] = "\162"
+        }
+    },
 
-        if animationLength >= 3 then
-            animationLength = 1
+    args1 = {
+        [1] = {
+            [1] = {
+                ["animationIndex"] = 1,
+                ["sentAt"] = 1732331059.475885
+            },
+            [2] = "\162"
+        }
+    },
+
+    args2 = {
+        [1] = {
+            [1] = {
+                ["animationIndex"] = 2,
+                ["sentAt"] = 1732331030.1644
+            },
+            [2] = "\162"
+        }
+    },
+    
+    args3 = {
+        [1] = {
+            [1] = {
+                ["animationIndex"] = 3,
+                ["sentAt"] = 1732331050.258777
+            },
+            [2] = "\162"
+        }
+    }
+}
+
+local A = Instance.new("Animation")
+A.AnimationId = "rbxassetid://91994339000643"
+A.Parent = game.Players.LocalPlayer.Character
+local Anims = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(A)
+
+local Index = 0
+task.spawn(function()
+    while task.wait() do
+        Index += 1
+        game:GetService("ReplicatedStorage").dataRemoteEvent:FireServer(unpack(PACKS["args" .. Index]))
+        Anims:Play()
+        Anims:Stop()
+    
+        if Index >= 3 then
+            Index = 0
         end
-        task.wait()
     end
 end)
 

@@ -4,5 +4,10 @@
     ],
     "Lua.diagnostics.disable": [
         "undefined-global"
+    ],
+    "robloxLsp.diagnostics.globals": [
+        "getrawmetatable",
+        "setreadonly",
+        "getnamecallmethod"
     ]
 }
