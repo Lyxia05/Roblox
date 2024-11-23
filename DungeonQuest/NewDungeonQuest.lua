@@ -97,7 +97,7 @@ local function AutoFarming()
     end
 
     -- Move to target without excessive rotation
-    local targetCFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, Radius, 0))
+    local targetCFrame = CFrame.new(CURRENT_OBJECT:GetPivot().Position + Vector3.new(0, Radius, 0)) * CFrame.Angles(math.rad(-90), 0, math.rad(90))
     Tween(Character.HumanoidRootPart, GetTime(Distance), {CFrame = targetCFrame})
 end
 
