@@ -1,7 +1,9 @@
 ----- SETTINGS -----
 getgenv().AutoRetry = true
 
-
+if not game:IsLoaded() then
+    game.IsLoaded:Wait()
+end
 
 if game.PlaceId == 2414851778 then
     return
